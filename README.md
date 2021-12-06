@@ -137,6 +137,12 @@
 
 ---
 
+### \[1.20 revision] Prompt 클래스 - `List<Stage>` 생성 및 초기화
+- List<Stage> `stages` : 로딩된 Stage들의 리스트
+- List<Stage> `initStages()` : 파일을 읽어와, `stages`를 초기화
+
+---
+
 ## 2단계
 
 ## 3단계

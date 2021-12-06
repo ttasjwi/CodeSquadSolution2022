@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class Prompt {
 
-
     private static final String MAP_FILE_DIR = "Map.txt";
     private static final File MAP_FILE = new File(MAP_FILE_DIR);
+    private static final List<Stage> stages = initStages();
 
     //소스파일에서 스테이지단위로 텍스트를 분리한다.
     private static List<String> splitStageStr(File mapFile) {
@@ -24,6 +24,19 @@ public class Prompt {
             System.exit(0);
         }
         return stageStrSplits; // List를 반환한다.
+    }
+
+    // List<Stage> 초기화
+    private static List<Stage> initStages() {
+        List<String> stageStrSplits = splitStageStr(MAP_FILE);
+        List<Stage> stages = new ArrayList<>();
+
+        for(String stageSrc : stageStrSplits) {
+            StageBuilder stageBuilder = new StageBuilder(stageSrc);
+            Stage stage = stageBuilder.build();
+            stages.add(stage);
+        }
+        return stages;
     }
 
     // 실행
