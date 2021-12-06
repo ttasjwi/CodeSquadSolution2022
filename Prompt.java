@@ -41,13 +41,20 @@ public class Prompt {
 
     // 실행
     public void run() {
-        printStages();
+        for (Stage stage : stages) {
+            printStage(stage);
+        }
     }
 
-    //TODO : 모든 스테이지들을 출력한다.
-    private void printStages() {
-        System.out.println("프로그램 실행 확인");
-        System.out.println("할 것 : 모든 스테이지를 출력할 것");
+    // 지정 스테이지들을 출력한다.
+    private void printStage(Stage stage) {
+        System.out.println(stage.getStageName()+'\n');
+        System.out.println(stage.getMapString());
+        System.out.println("가로크기 : "+stage.getWidth());
+        System.out.println("세로크기 : "+stage.getHeight());
+        System.out.println("구멍의 수 : "+stage.getNmbOfHall());
+        System.out.println("공의 수 : "+stage.getNmbOfBall());
+        System.out.println("플레이어 위치 : "+stage.getPointOfPlayer().toString()+'\n');
     }
 
 }

@@ -141,6 +141,19 @@
 - List<Stage> `stages` : 로딩된 Stage들의 리스트
 - List<Stage> `initStages()` : 파일을 읽어와, `stages`를 초기화
 
+### \[1.21 revision] Prompt 클래스 - 모든 스테이지의 내용을 출력
+1. 작업상황
+   - `printStage(Stage stage)` : 지정 스테이지의 세부사항을 출력
+     - 스테이지명
+     - 스테이지맵 화면 출력
+     - 가로크기, 세로크기
+     - 구멍의 수, 공의 수
+     - 플레이어 위치
+   - `run()` : `stages`의 모든 stage에 대하여  `printStage(Stage stage)`  수행
+2. 동작
+   - Main 클래스 실행시 run() 메서드를 호출하여, 스테이지의 모든 세부사항을 출력하도록함
+3. 결론 : **1단계 완료**
+
 ---
 
 ## 2단계
