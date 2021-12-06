@@ -69,4 +69,14 @@ public class Stage {
         return countOfHall;
     }
 
+    // 맵의 가로폭 반환
+    public int getWidth() {
+        return this.stageMap[0].length;
+    }
+
+    // 맵의 세로폭 반환
+    public int getHeight() {
+        return this.stageMap.length;
+    }
+
 }
