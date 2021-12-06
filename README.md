@@ -107,6 +107,13 @@
 
 ---
 
+### \[1.15 version] `getNmbOf~()` 메서드 - stageMap에서 지정 오브젝트의 갯수 반환 
+- `getNmbOf(Integer mapObjectCode)` : 지정 오브젝트 코드(숫자)에 대응하는 오브젝트의 갯수를 반환
+- `getNmbOfBall()` : 공의 갯수 반환
+- `getNmbOfHall()` : 구멍의 갯수 반환
+
+---
+
 ## 2단계
 
 ## 3단계

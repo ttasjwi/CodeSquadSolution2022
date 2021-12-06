@@ -47,4 +47,26 @@ public class Stage {
         return sb.toString();
     }
 
+    //StageMap에서 구멍의 갯수를 반환
+    public int getNmbOfHall() {
+        return getNmbOf(HALL_CODE);
+    }
+
+    //StageMap에서 공의 갯수를 반환
+    public int getNmbOfBall() {
+        return getNmbOf(BALL_CODE);
+    }
+
+    //SatgeMap에서 지정 MapCode에 대응하는 오브젝트의 갯수를 반환
+    private int getNmbOf(Integer mapObjectCode) {
+        int countOfHall = 0;
+        for (int i=0; i<stageMap.length; i++) {
+            for (int j=0; j<stageMap[i].length; j++) {
+                if (stageMap[i][j] == null) continue;
+                if (stageMap[i][j].equals(mapObjectCode)) countOfHall ++;
+            }
+        }
+        return countOfHall;
+    }
+
 }
