@@ -74,6 +74,14 @@
 
 ---
 
+### \[1.10 revision] 문자를 읽고, 스테이지맵의 오브젝트에 대한 숫자값을 반환하는 메서드 정의
+- 문자를 인자로, 스테이지 맵의 오브젝트 값으로 파싱하는 메서드 parseMapObject(char ch) 정의
+  - 문자를 인자로 이를 Map의 오브젝트에 대응하는 Integer로 반환
+- Map 오브젝트 값이 헷갈릴 수 있으므로, 이를 static 상수화함.
+  - `WALL_CODE` == 0, `HALL_CODE` == 1, `BALL_CODE` == 2, `PLAYER_CODE` == 3 `STAGE_DELIM_CODE`==4;
+
+---
+
 ## 2단계
 
 ## 3단계
