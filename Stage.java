@@ -79,4 +79,10 @@ public class Stage {
         return this.stageMap.length;
     }
 
+    // 스테이지명 반환
+    public String getStageName() {
+        return this.stageName;
+    }
+
+
 }
