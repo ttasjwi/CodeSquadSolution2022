@@ -30,7 +30,18 @@
 
 ---
 
+### \[1.05 revision]  Point 클래스 정의
 
+- 어떤 좌표를 정의한 Point 클래스 정의
+- 멤버
+  1. int x;
+  2. int y;
+- 메서드
+  - equals : 같은 x,y 좌표면 true, 다르면 false 반환
+  - hashCode : x,y 좌표를 기준으로 hashCode를 반환하도록 함
+  - toString : (x, y)의 형태로 좌표를 문자열로 반환
+
+---
 
 ## 2단계
 
