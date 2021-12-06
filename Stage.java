@@ -84,5 +84,21 @@ public class Stage {
         return this.stageName;
     }
 
+    // 플레이어의 좌표 반환
+    public Point getPointOfPlayer() {
+        for (int i=0; i<stageMap.length; i++) {
+            for (int j=0; j<stageMap[i].length; j++) {
+                Integer mapObjectCode = stageMap[i][j];
+                if (isPlayer(mapObjectCode)) return new Point(i,j);
+            }
+        }
+        return null;
+    }
+
+    // 지정 맵 오브젝트 코드(숫자)를 읽고 플레이어인지 여부를 반환
+    private boolean isPlayer(Integer mapObjectCode) {
+        if (mapObjectCode == null) return false;
+        return mapObjectCode.equals(PLAYER_CODE);
+    }
 
 }

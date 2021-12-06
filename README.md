@@ -125,6 +125,11 @@
 
 ---
 
+### \[1.18 revision] `getPointOfPlayer()` : 플레이어의 위치 `Point` 반환
+- `getPointOfPlayer()` : 플레이어 위치 `Point` 반환
+- `isPlayer(Integer mapObjectCode)` : 지정 
+
+---
 
 ## 2단계
 
