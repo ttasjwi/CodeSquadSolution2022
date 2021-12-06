@@ -31,4 +31,12 @@ public class StageBuilder {
         }
         return maxLength;
     }
+
+    // 만들 스테이지 맵의 세로크기를 구하여 반환한다.
+    private int calHeight() {
+        int width =  this.stageMapSrc.size()+1; // 스테이지 구분용으로 한 줄 더 넣어야함.
+        return width;
+    }
+
 }
+
