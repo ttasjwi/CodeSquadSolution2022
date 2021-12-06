@@ -20,6 +20,14 @@ public class StageBuilder {
         this.stageMapSrc = stageMapSrc;
     }
 
+    //빈 스테이지 맵을 반환한다.
+    private Integer[][] makeEmptyStageMap() {
+        int height = this.calHeight();
+        int width = this.calWidth();
+        Integer[][] emptyStageMap = new Integer[height][width];
+        return emptyStageMap;
+    }
+
     // 만들 스테이지 맵의 가로크기를 구하여 반환한다.
     private int calWidth() {
         int maxLength = this.stageMapSrc.get(0).length(); // 라인별 문자열의 길이의 최댓값
