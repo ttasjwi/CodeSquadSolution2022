@@ -82,6 +82,15 @@
 
 ---
 
+### \[1.11 version] 스테이지 생성 메서드 `build` 정의
+- `build()` 메서드 : Stage를 생성하는 메서드
+  - 멤버변수 `stageName`을 읽어오고, stageMap을 만들어 이를 토대로 Stage를 생성한다.
+- `makeStageMap()` 메서드 : stageMap을 생성하는 메서드
+  - `makeEmptyStageMap()`을 통해 빈 StageMap을 생성하고 fill StageMap을 생성한다.
+- `fillMapObject(Integer[][] stageMap, int rowNumber)` 메서드 : 행단위로 행에 다응하는 `stageMapSrc`의 인덱스의 라인을 읽어와, 각 라인을 문자단위로 파싱하고 StageMap을 채운다.
+
+---
+
 ## 2단계
 
 ## 3단계
