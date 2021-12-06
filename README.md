@@ -21,6 +21,17 @@
 
 ---
 
+### \[1.04 revision] Stage 클래스 정의  
+
+각 Stage를 정의한 Stage 클래스 정의  
+- 멤버
+  1. String `stageName` : 스테이지명
+  2. Integer[][] `stageMap` : 맵
+
+---
+
+
+
 ## 2단계
 
 ## 3단계
