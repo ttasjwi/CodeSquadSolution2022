@@ -43,6 +43,19 @@
 
 ---
 
+### \[1.06 revision] StageBuilder 클래스 정의
+
+- revision 1.03에서 만들어진 `splitStageStr`을 통해 분리된, 스테이지 단위의 문자열을 읽고, 이를 통해 스테이지를 만드는 용도로 정의한 클래스
+- 멤버
+  - String `stageName` : 만들고자 하는 stage의 이름
+  - List\<Sring> `stageMapSrc` : 스테이지 맵 문자열을 라인단위로 쪼갬
+- 생성자
+  - 스테이지 문자열을 읽고, 첫번째 줄은 `stageName`, 나머지 줄은 `stageMapSrc`에 라인단위로 저장
+- 구현해야할 것
+  - 스테이지 문자열들을 분석하여, `Stage`를 만드는 것
+
+---
+
 ## 2단계
 
 ## 3단계
