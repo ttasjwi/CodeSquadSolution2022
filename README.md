@@ -91,6 +91,10 @@
 
 ---
 
+### \[1.12 version] 스테이지 맵의 오브젝트 코드를 Stage의 static 상수로 변경
+- 기존 StageBuilder에서 정의되었던 static 상수였으나, 범용성을 위해 Stage의 static 상수로 함.
+
+
 ## 2단계
 
 ## 3단계
