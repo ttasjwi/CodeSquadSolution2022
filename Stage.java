@@ -33,4 +33,18 @@ public class Stage {
         }
         return SPACE_SYMBOL;
     }
+
+    //stageMap의 각 인덱스의 값 문자로 형식화하고, 문자열로 반환
+    public String getMapString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i=0; i<stageMap.length-1; i++) { //마지막 줄은 제외한다.
+            for (int j=0; j<stageMap[i].length; j++) {
+                sb.append(getMapSymbol(stageMap[i][j]));
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
+    }
+
 }
