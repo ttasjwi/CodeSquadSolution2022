@@ -91,7 +91,7 @@ public class Stage {
 
     // 지정 인덱스에 위치한 맵 오브젝트를 반환한다.
     private MapObject getMapObject(Point p) {
-        return getMapObject(p.getX(), p.getY());
+        return getMapObject(p.getY(), p.getX());
     }
 
     // 지정 맵 오브젝트가 플레이어인지 여부를 반환

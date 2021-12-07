@@ -215,7 +215,7 @@
 
 ---
 
-### \[2.06 revision] 지정좌표의 동서남푹 좌표를 반환하는 메서드 각각 생성
+### \[2.06 revision] 지정좌표의 동서남북 좌표를 반환하는 메서드 각각 생성
 
 1.작업상황
 - Point 클래스에서 `getEastPoint()`, `getSouthPoint()`, `getWestPoint()`, `getNorthPoint()` 메서드 정의
@@ -225,6 +225,16 @@
 2. 동작
 - 실행 시 Stage2의 스테이지명이 출력되고, 현재 스테이지 상태를 출력하면서 종료된다.
   - 추가내용 : 플레이어의 동남서북 좌표도 출력
+
+---
+
+### \[2.07 revision] `getMapObject(Point p)` 메서드 오류 수정
+
+1. 작업상황
+   - `getMapObject(Point p)` 메서드는 `getMapObject(int i, int j)` 메서드를 참조하는데, 이때 i,j에 각각 y, 좌표를 넘겨야했던 것을 x, y 좌표로 넘기는 문제가 있었음. 이를 정정함.
+   - `README.md`에서 2.07 revision의 오타 수정(동서남푹-> 동서남북)
+2. 동작
+   - 실행시 콘솔에 보이는 내용은 이전 revision과 별 차이 없음. 실행 시 Stage의 스테이지명이 출력되고, 현재 스테이지 상태를 출력하면서 종료된다.
 
 ---
 
