@@ -43,19 +43,11 @@ public class Prompt {
     public void run() {
         Stage stage2 = stages.get(1);
         System.out.println(stage2.getStageName());
-        stage2.printStageMap();
 
         stage2.movePlayerToEast();
-        stage2.printStageMap();
-
         stage2.movePlayerToSouth();
-        stage2.printStageMap();
-
         stage2.movePlayerToWest();
-        stage2.printStageMap();
-
         stage2.movePlayerToNorth();
-        stage2.printStageMap();
     }
 
 }

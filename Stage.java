@@ -127,41 +127,47 @@ public class Stage {
         MapObject mo2 = getMapObject(p2);
 
         if (!(mo1.isMovable()&&mo2.isMovable())) {
-            System.out.println("이동 실패");
             return false;
         }
         currentMap[p1.getY()][p1.getX()] = mo2;
         currentMap[p2.getY()][p2.getX()] = mo1;
-        System.out.println("이동 성공");
         return true;
     }
 
-    // 플레이어를 동쪽으로 이동시킨다.
-    public boolean movePlayerToEast() {
-        System.out.println("오른쪽으로 이동합니다.");
+    // 플레이어를 동쪽(오른쪽)으로 이동시킨다.
+    public void movePlayerToEast() {
         Point eastPoint = getPointOfPlayer().getEastPoint();
-        return exchange(getPointOfPlayer(), eastPoint);
+        boolean exchange = exchange(getPointOfPlayer(), eastPoint);
+        System.out.println((exchange)? "D : 오른쪽으로 이동합니다." : "D : (경고!) 해당 명령을 수행할 수 없습니다!");
+        printStageMap();
+        return;
     }
 
-    // 플레이어를 남쪽으로 이동시킨다.
-    public boolean movePlayerToSouth() {
-        System.out.println("아래로 이동합니다.");
+    // 플레이어를 남쪽(아래)으로 이동시킨다.
+    public void movePlayerToSouth() {
         Point southPoint = getPointOfPlayer().getSouthPoint();
-        return exchange(getPointOfPlayer(), southPoint);
+        boolean exchange = exchange(getPointOfPlayer(), southPoint);
+        System.out.println((exchange)? "S : 아래로 이동합니다." : "S : (경고!) 해당 명령을 수행할 수 없습니다!");
+        printStageMap();
+        return;
     }
 
-    // 플레이어를 서쪽으로 이동시킨다.
-    public boolean movePlayerToWest() {
-        System.out.println("왼쪽으로 이동합니다.");
+    // 플레이어를 서쪽(왼쪽)으로 이동시킨다.
+    public void movePlayerToWest() {
         Point westPoint = getPointOfPlayer().getWestPoint();
-        return exchange(getPointOfPlayer(), westPoint);
+        boolean exchange = exchange(getPointOfPlayer(), westPoint);
+        System.out.println((exchange)? "A : 왼쪽으로 이동합니다." : "A : (경고!) 해당 명령을 수행할 수 없습니다!");
+        printStageMap();
+        return;
     }
 
-    // 플레이어를 북쪽으로 이동시킨다.
-    public boolean movePlayerToNorth() {
-        System.out.println("위로 이동합니다.");
+    // 플레이어를 북쪽(위)으로 이동시킨다.
+    public void movePlayerToNorth() {
         Point northPoint = getPointOfPlayer().getNorthPoint();
-        return exchange(getPointOfPlayer(), northPoint);
+        boolean exchange = exchange(getPointOfPlayer(), northPoint);
+        System.out.println((exchange)? "W : 위로 이동합니다." : "W : (경고!) 해당 명령을 수행할 수 없습니다!");
+        printStageMap();
+        return;
     }
 
 }
