@@ -40,7 +40,7 @@ public class Prompt {
     }
 
     // 실행
-    public void run() {
+    public void execute() {
         Stage stage2 = stages.get(1);
         System.out.println(stage2.getStageName());
 
