@@ -109,4 +109,9 @@ public class Stage {
         return (mo instanceof Hall);
     }
 
+    // 지정 맵 오브젝트가 빈 공간인지 여부를 반환
+    private boolean isSpace(MapObject mo) {
+        return (mo instanceof Space);
+    }
+
 }
