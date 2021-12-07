@@ -43,12 +43,19 @@ public class Prompt {
     public void execute() {
         Scanner sc = new Scanner(System.in);
         Stage stage2 = stages.get(1);
-        System.out.println(stage2.getStageName());
-        stage2.printStageMap();
-
-        System.out.print(PROMPT);
-        runCommandQueue(stage2, inputCommandQueue(sc));
+        playStage(stage2, sc);
         sc.close();
+        return;
+    }
+
+    // 실제로 각 스테이지를 사용자가 플레이하는 부분의 메서드
+    private void playStage(Stage stage, Scanner sc) {
+        System.out.println(stage.getStageName());
+        stage.printStageMap();
+        while(isPlaying) {
+            System.out.print(PROMPT);
+            runCommandQueue(stage, inputCommandQueue(sc));
+        }
         return;
     }
 
