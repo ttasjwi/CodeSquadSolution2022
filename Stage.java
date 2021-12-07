@@ -78,7 +78,7 @@ public class Stage {
         for (int i=0; i<currentMap.length; i++) {
             for (int j=0; j<currentMap[i].length; j++) {
                 MapObject mapObject = currentMap[i][j];
-                if (isPlayer(mapObject)) return new Point(i,j);
+                if (isPlayer(mapObject)) return new Point(j,i);
             }
         }
         return null;

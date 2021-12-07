@@ -257,6 +257,30 @@
 
 ---
 
+### \[2.10 revision] `getPointOfPlayer()` 오류 수정
 
+1. 작업상황
+   - `getPointOfPlayer()` 메서드의 심각한 오류 수정
+   - : 행-열을 y-x로 바꿔야했는데 x-y로 해서 Point를 생성했었음. **여태까지 출력했던 플레이어 위치는 x,y가 뒤바뀐 것이였다!**
+       ```
+           // 플레이어의 좌표 반환
+           public Point getPointOfPlayer() {
+               for (int i=0; i<currentMap.length; i++) {
+                   for (int j=0; j<currentMap[i].length; j++) {
+                       MapObject mapObject = currentMap[i][j];
+                       if (isPlayer(mapObject)) return new Point(j,i); // i,j 순으로 작성해버렸는데 j,i였다.
+                   }
+               }
+               return null;
+           }
+       ```
+
+---
+
+
+2. 동작
+    - 실행시 콘솔에 보이는 내용은 이전과 달라졌을 것임. 플레이어의 x,y좌표가 바뀌었을 것이다. (정정)
+
+---
 
 ## 3단계
