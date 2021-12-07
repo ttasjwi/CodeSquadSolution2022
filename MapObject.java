@@ -1,8 +1,8 @@
 
-public interface MapObject {
+public abstract class MapObject {
 
     // 지정 symbol을 읽고 인스턴스를 반환한다.
-    static MapObject getInstance(char symbol) {
+    public static MapObject getInstance(char symbol) {
         switch(symbol) {
             case '#' : return new Wall();
             case 'O' : return new Hall();
@@ -12,7 +12,7 @@ public interface MapObject {
         }
     }
 
-    char getSymbol();
+    public abstract char getSymbol();
 
-    boolean isMovable();
+    public abstract boolean isMovable();
 }

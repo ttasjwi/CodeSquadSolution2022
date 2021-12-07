@@ -1,5 +1,5 @@
 
-public class Hall implements MapObject {
+public class Hall extends MapObject {
     private static final char symbol = 'O';
 
     @Override

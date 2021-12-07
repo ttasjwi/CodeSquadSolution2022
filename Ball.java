@@ -1,4 +1,4 @@
-public class Ball implements MapObject {
+public class Ball extends MapObject {
 
     private static final char symbol = 'o';
 

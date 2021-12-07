@@ -1,5 +1,6 @@
 
-public class Player implements MapObject {
+public class Player extends MapObject {
+
     private static final char symbol = 'P';
 
     @Override

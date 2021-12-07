@@ -1,5 +1,5 @@
 
-class Wall implements MapObject {
+class Wall extends MapObject {
     private static final char symbol = '#';
 
     @Override

@@ -1,4 +1,4 @@
-class StageDelim implements MapObject {
+class StageDelim extends MapObject {
     private static final char symbol = '=';
 
     @Override
