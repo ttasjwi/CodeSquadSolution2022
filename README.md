@@ -247,5 +247,16 @@
 
 ---
 
+### \[2.09 revision] `MapObject` 인터페이스에 추상메서드 `isMovable` 추가
+
+1. 작업상황
+    - `isMovable()` : 움직일 수 있는 지 여부를 반환
+    - 구현체인 Wall, Hall, Ball, Player, Space, StageDelim 에서 이를 구현하도록 함ㅁ.
+2. 동작
+    - 실행시 콘솔에 보이는 내용은 이전 revision과 별 차이 없음. 실행 시 Stage의 스테이지명이 출력되고, 현재 스테이지 상태를 출력하면서 종료된다.
+
+---
+
+
 
 ## 3단계

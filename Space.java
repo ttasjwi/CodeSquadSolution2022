@@ -8,4 +8,9 @@ public class Space implements MapObject {
         return this.symbol;
     }
 
+    @Override
+    public boolean isMovable() {
+        return true;
+    }
+
 }

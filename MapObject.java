@@ -13,4 +13,6 @@ public interface MapObject {
     }
 
     char getSymbol();
+
+    boolean isMovable();
 }

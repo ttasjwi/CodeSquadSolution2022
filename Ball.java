@@ -7,4 +7,9 @@ public class Ball implements MapObject {
         return this.symbol;
     }
 
+    @Override
+    public boolean isMovable() {
+        return false;
+    }
+
 }

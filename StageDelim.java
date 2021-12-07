@@ -5,4 +5,9 @@ class StageDelim implements MapObject {
     public char getSymbol() {
         return this.symbol;
     }
+
+    @Override
+    public boolean isMovable() {
+        return false;
+    }
 }

@@ -6,4 +6,9 @@ public class Player implements MapObject {
     public char getSymbol() {
         return this.symbol;
     }
+
+    @Override
+    public boolean isMovable() {
+        return true;
+    }
 }
