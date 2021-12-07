@@ -114,4 +114,20 @@ public class Stage {
         return (mo instanceof Space);
     }
 
+    // p1과 p2에 위치한 객체를 자리바꿈한다.
+    public boolean exchange(Point p1, Point p2) {
+        if (p1 == p2) return false;
+        MapObject mo1 = getMapObject(p1);
+        MapObject mo2 = getMapObject(p2);
+
+        if (!(mo1.isMovable()&&mo2.isMovable())) {
+            System.out.println("이동 실패");
+            return false;
+        }
+        currentMap[p1.getY()][p1.getX()] = mo2;
+        currentMap[p2.getY()][p2.getX()] = mo1;
+        System.out.println("이동 성공");
+        return true;
+    }
+
 }

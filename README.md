@@ -280,6 +280,15 @@
 
 2. 동작
     - 실행시 콘솔에 보이는 내용은 이전과 달라졌을 것임. 플레이어의 x,y좌표가 바뀌었을 것이다. (정정)
+    
+---
+
+### \[2.11 revision] `exchange(Point p1, Point p2)` 메서드 생성
+1. 작업상황 
+   - `exchange(Point p1, Point p2)` : p1과 p2에 위치한 MapObject를 자리바꿈한다.
+     - 두 MapObject 어느 한쪽이라도 `isMovable()` 메서드가 false를 반환하면 이동할 수 없다.
+2. 동작
+    - 실행시 콘솔에 보이는 내용은 이전 revision과 별 차이 없음. 실행 시 Stage의 스테이지명이 출력되고, 현재 스테이지 상태를 출력하면서 종료된다.
 
 ---
 
