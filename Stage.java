@@ -84,6 +84,11 @@ public class Stage {
         return null;
     }
 
+    // 지정 인덱스에 위치한 맵 오브젝트를 반환한다.
+    private MapObject getMapObject(int i, int j) {
+        return currentMap[i][j];
+    }
+
     // 지정 맵 오브젝트가 플레이어인지 여부를 반환
     private boolean isPlayer(MapObject mo) {
         return (mo instanceof Player);
