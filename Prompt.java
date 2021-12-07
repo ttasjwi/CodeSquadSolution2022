@@ -42,7 +42,7 @@ public class Prompt {
     // 실행
     public void run() {
         Stage stage2 = stages.get(1);
-        printStageName(stage2);
+        stage2.printStageMap();
         printCurrentStatus(stage2);
 
         stage2.movePlayerToEast();
@@ -65,7 +65,7 @@ public class Prompt {
 
     // 지정 스테이지의 현재 상태를 출력한다.
     private void printCurrentStatus(Stage stage) {
-        System.out.println(stage.getMapString());
+        stage.printStageMap();
         System.out.println("가로크기 : "+stage.getWidth());
         System.out.println("세로크기 : "+stage.getHeight());
         System.out.println("구멍의 수 : "+stage.getNmbOfHall());

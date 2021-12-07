@@ -23,7 +23,7 @@ public class Stage {
     }
 
     //stageMap의 각 인덱스의 값 문자로 형식화하고, 문자열로 반환
-    public String getMapString() {
+    private String getMapString() {
         StringBuilder sb = new StringBuilder();
 
         for (int i=0; i<currentMap.length-1; i++) { //마지막 줄은 제외한다.
@@ -112,6 +112,12 @@ public class Stage {
     // 지정 맵 오브젝트가 빈 공간인지 여부를 반환
     private boolean isSpace(MapObject mo) {
         return (mo instanceof Space);
+    }
+
+    // 스테이지를 출력한다.
+    public void printStageMap() {
+        System.out.println(getMapString());
+        return;
     }
 
     // p1과 p2에 위치한 객체를 자리바꿈한다.
