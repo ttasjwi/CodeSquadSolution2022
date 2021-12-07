@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class StageBuilder {
 
@@ -22,10 +19,16 @@ public class StageBuilder {
     }
 
     //빈 스테이지 맵을 반환한다.
-    private Integer[][] makeEmptyStageMap() {
+    private MapObject[][] makeEmptyStageMap() {
         int height = this.calHeight();
         int width = this.calWidth();
-        Integer[][] emptyStageMap = new Integer[height][width];
+
+        MapObject[][] emptyStageMap = new MapObject[height][width];
+        for (int i=0; i<emptyStageMap.length; i++) {
+            for (int j=0; j<emptyStageMap[i].length; j++) {
+                emptyStageMap[i][j] = new Space();
+            }
+        }
         return emptyStageMap;
     }
 
@@ -49,13 +52,13 @@ public class StageBuilder {
 
     // Stage를 생성해서 반환한다.
     public Stage build() {
-        Integer[][] stageMap = makeStageMap();
+        MapObject[][] stageMap = makeStageMap();
         return new Stage(this.stageName, stageMap);
     }
 
     // 스테이지의 오브젝트들을 담을 이차원배열, StageMap을 생성한다.
-    private Integer[][] makeStageMap() {
-        Integer[][] stageMap = makeEmptyStageMap();
+    private MapObject[][] makeStageMap() {
+        MapObject[][] stageMap = makeEmptyStageMap();
         for (int i=0; i< stageMap.length; i++) {
             fillMapObject(stageMap, i); // i번째 요소를 기반으로 i행(가로줄)을 채운다.
         }
@@ -63,30 +66,19 @@ public class StageBuilder {
     }
 
     // 행 단위로(라인), stageMap의 각 인덱스에 맵오브젝트를 채운다.
-    private void fillMapObject(Integer[][] stageMap, int rowNumber) {
+    private void fillMapObject(MapObject[][] stageMap, int rowNumber) {
         if (rowNumber == stageMap.length-1) { // 마지막 행은 STAGE_DELIM_CODE로 채운다.
-            Arrays.fill(stageMap[rowNumber], Stage.STAGE_DELIM_CODE);
+            Arrays.fill(stageMap[rowNumber], new StageDelim());
             return;
         }
 
         String line = stageMapSrc.get(rowNumber); // 해당 행에 대응하는 stageMapSrc의 라인
         char[] chars = line.toCharArray(); // 문자의 배열로 쪼갠다.
         for (int j=0; j<chars.length; j++) {
-            Integer mapObjectCode = parseMapObject(chars[j]); // 문자별로 맵 오브젝트 코드값으로 변환한다.
-            stageMap[rowNumber][j] = mapObjectCode; // 채운다.
+            MapObject mapObject = MapObject.getInstance(chars[j]); // 문자별로 맵 오브젝트 코드값으로 변환한다.
+            stageMap[rowNumber][j] = mapObject; // 채운다.
         }
         return;
-    }
-
-    // 문자를 인자로 맵의 오브젝트 값으로 반환한다.
-    private Integer parseMapObject(char ch) {
-        switch(ch) {
-            case '#' : return Stage.WALL_CODE;
-            case 'O' : return Stage.HALL_CODE;
-            case 'o' : return Stage.BALL_CODE;
-            case 'P' : return Stage.PLAYER_CODE;
-            default: return null;
-        }
     }
 
 }

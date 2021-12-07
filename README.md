@@ -170,4 +170,18 @@
 
 ---
 
+### \[2.02 revision] MapObject 인터페이스 정의, 모든 맵오브젝트 객체화
+1. 작업상황
+- Stage 맵에 존재하는 모든 오브젝트를 Integer로 관리하다보니 불편함을 느껴서, 모든 맵 오브젝트를 Integer 대신, MapObject 인터페이스의 구현체로 객체화했다.
+- 이에 따라 기존에 Integer로 맵의 오브젝트를 다루던 클래스들을 전면적으로 개편하지 않을 수 없었고 이번 커밋은 커밋 단위가 매우 커져버렸다.
+  - 공백을 `Space`로 추가 정의했다.
+  - MapObject 인터페이스는 `getSymbol()` 메서드를 추상메서드로 하였고, 이를 구현해야 인스턴스를 생성할 수 있다.
+  - MapObject 인터페이스는 static 메서드 getInstance(char symbol)를 통해, 문자를 통하여 symbol에 대응하는 구현체 인스턴스를 반환한다. 
+  - StageBuilder 클래스의 parseMapObject 클래스는 MapObject의 getInstace() 메서드가 그 역할을 수행하도록 하고, 제거했다.
+
+2. 동작
+  - 실행시 콘솔에 보이는 내용은 이전 revision과 별 차이 없음. 실행 시 모든 stage의 세부사항을 출력함.
+
+---
+
 ## 3단계

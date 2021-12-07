@@ -1,50 +1,25 @@
 public class Stage {
 
     private String stageName; // 스테이지명
-    private Integer[][] originalMap; // 스테이지 맵
-    private Integer[][] currentMap; // 현재 맵
+    private MapObject[][] originalMap; // 스테이지 맵
+    private MapObject[][] currentMap; // 현재 맵
 
-    public static final Integer WALL_CODE = 0; // 벽
-    public static final Integer HALL_CODE = 1; // 구멍
-    public static final Integer BALL_CODE = 2; // 공
-    public static final Integer PLAYER_CODE = 3; // 플레이어
-    public static final Integer STAGE_DELIM_CODE = 4; // 스테이지 구분
-
-    public static final char WALL_SYMBOL = '#';
-    public static final char HALL_SYMBOL = 'O';
-    public static final char BALL_SYMBOL = 'o';
-    public static final char PLAYER_SYMBOL = 'P';
-    public static final char STAGE_DELIM_SYMBOL = '=';
-    public static final char SPACE_SYMBOL = ' ';
-
-    public Stage(String stageName, Integer[][] stageMap) {
+    public Stage(String stageName, MapObject[][] stageMap) {
         this.stageName = stageName;
         this.originalMap = stageMap;
         this.currentMap = reset();
     }
 
     // 스테이지를 초기화한다.
-    private Integer[][] reset() {
-        Integer[][] copyMap = new Integer[originalMap.length][originalMap[0].length];
+    private MapObject[][] reset() {
+        MapObject[][] copyMap = new MapObject[originalMap.length][originalMap[0].length];
         for (int i=0; i<originalMap.length; i++) {
             for (int j=0; j<originalMap[i].length; j++) {
-                copyMap[i][j] = (originalMap[i][j] == null) ? null : Integer.valueOf(originalMap[i][j]);
+                char symbol = originalMap[i][j].getSymbol();
+                copyMap[i][j] = MapObject.getInstance(symbol);
             }
         }
         return copyMap;
-    }
-
-    //Integer을 읽고 문자로 형식화한다.
-    public char getMapSymbol(Integer mapObjectCode) {
-        if (mapObjectCode==null) return SPACE_SYMBOL;
-        switch (mapObjectCode) {
-            case 0 : return WALL_SYMBOL;
-            case 1 : return HALL_SYMBOL;
-            case 2 : return BALL_SYMBOL;
-            case 3 : return PLAYER_SYMBOL;
-            case 4 : return STAGE_DELIM_SYMBOL;
-        }
-        return SPACE_SYMBOL;
     }
 
     //stageMap의 각 인덱스의 값 문자로 형식화하고, 문자열로 반환
@@ -53,7 +28,8 @@ public class Stage {
 
         for (int i=0; i<currentMap.length-1; i++) { //마지막 줄은 제외한다.
             for (int j=0; j<currentMap[i].length; j++) {
-                sb.append(getMapSymbol(currentMap[i][j]));
+                char symbol = currentMap[i][j].getSymbol();
+                sb.append(symbol);
             }
             sb.append('\n');
         }
@@ -62,24 +38,24 @@ public class Stage {
 
     //StageMap에서 구멍의 갯수를 반환
     public int getNmbOfHall() {
-        return getNmbOf(HALL_CODE);
-    }
-
-    //StageMap에서 공의 갯수를 반환
-    public int getNmbOfBall() {
-        return getNmbOf(BALL_CODE);
-    }
-
-    //SatgeMap에서 지정 MapCode에 대응하는 오브젝트의 갯수를 반환
-    private int getNmbOf(Integer mapObjectCode) {
         int countOfHall = 0;
         for (int i=0; i<currentMap.length; i++) {
             for (int j=0; j<currentMap[i].length; j++) {
-                if (currentMap[i][j] == null) continue;
-                if (currentMap[i][j].equals(mapObjectCode)) countOfHall ++;
+                if (isHall(currentMap[i][j])) countOfHall ++;
             }
         }
         return countOfHall;
+    }
+
+    //SatgeMap에서 공의 갯수를 반환
+    public int getNmbOfBall() {
+        int countOfBall = 0;
+        for (int i=0; i<currentMap.length; i++) {
+            for (int j=0; j<currentMap[i].length; j++) {
+                if (isBall(currentMap[i][j])) countOfBall ++;
+            }
+        }
+        return countOfBall;
     }
 
     // 맵의 가로폭 반환
@@ -101,17 +77,26 @@ public class Stage {
     public Point getPointOfPlayer() {
         for (int i=0; i<currentMap.length; i++) {
             for (int j=0; j<currentMap[i].length; j++) {
-                Integer mapObjectCode = currentMap[i][j];
-                if (isPlayer(mapObjectCode)) return new Point(i,j);
+                MapObject mapObject = currentMap[i][j];
+                if (isPlayer(mapObject)) return new Point(i,j);
             }
         }
         return null;
     }
 
-    // 지정 맵 오브젝트 코드(숫자)를 읽고 플레이어인지 여부를 반환
-    private boolean isPlayer(Integer mapObjectCode) {
-        if (mapObjectCode == null) return false;
-        return mapObjectCode.equals(PLAYER_CODE);
+    // 지정 맵 오브젝트가 플레이어인지 여부를 반환
+    private boolean isPlayer(MapObject mo) {
+        return (mo instanceof Player);
+    }
+
+    // 지정 맵 오브젝트가 공인지 여부를 반환
+    private boolean isBall(MapObject mo) {
+        return (mo instanceof Ball);
+    }
+
+    // 지정 맵 오브젝트가 구멍인지 여부를 반환
+    private boolean isHall(MapObject mo) {
+        return (mo instanceof Hall);
     }
 
 }
