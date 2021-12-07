@@ -41,14 +41,18 @@ public class Prompt {
 
     // 실행
     public void run() {
-        for (Stage stage : stages) {
-            printStage(stage);
-        }
+        Stage stage2 = stages.get(1);
+        printStageName(stage2);
+        printCurrentStatus(stage2);
     }
 
-    // 지정 스테이지들을 출력한다.
-    private void printStage(Stage stage) {
+    // 지정 스테이지의 이름을 출력한다.
+    private void printStageName(Stage stage) {
         System.out.println(stage.getStageName()+'\n');
+    }
+
+    // 지정 스테이지의 현재 상태를 출력한다.
+    private void printCurrentStatus(Stage stage) {
         System.out.println(stage.getMapString());
         System.out.println("가로크기 : "+stage.getWidth());
         System.out.println("세로크기 : "+stage.getHeight());
