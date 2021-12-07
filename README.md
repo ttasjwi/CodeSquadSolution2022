@@ -387,5 +387,17 @@
     
 ---
 
+### \[2.19 revision] `runCommanadQueue` 메서드 분리
+
+1. 작업상황
+    - `runCommandQueue(Stage stage, Queue<String> commandQueue)` : 지정 stage에 대하여 commandQueue의 작업을 순차적으로 수행함.
+      - `initCommandMap(Stage stage)` 메서드를 호출하여 자체적으로 stage에 대한 `commandMap`을 생성함.
+    - `execute` 메서드에서 runCommandQueue 메서드가 분리되어 `execute` 메서드의 길이가 상당히 줄어듬.
+2. 동작
+    - 스테이지 명, 초기 맵상태가 출력됨
+    - 사용자 입력을 받음.
+    - 사용자 입력을 순차적으로 수행하고 모든 명령이 수행되거나, Q명령이 들어오면 종료됨.
+
+---
 
 ## 3단계

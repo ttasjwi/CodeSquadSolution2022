@@ -47,20 +47,25 @@ public class Prompt {
         stage2.printStageMap();
 
         System.out.print(PROMPT);
-        Map<String, Runnable> commandMap = initCommandMap(stage2);
-        Queue<String> queue = inputCommandQueue(sc);
+        runCommandQueue(stage2, inputCommandQueue(sc));
+        sc.close();
+        return;
+    }
 
-        while (isPlaying && queue.size()>0) {
-            String command = queue.poll();
-            Runnable runnable = commandMap.get(command);
-            if (runnable == null) {
-                System.out.println(command+" : (경고!) 해당 명령을 수행할 수 없습니다!");
-                stage2.printStageMap();
+    // stage에 대하여 지정 Queue의 내용을 순차적으로 수행한다.
+    private void runCommandQueue(Stage stage, Queue<String> commandQueue) {
+        Map<String, Runnable> commandMap = initCommandMap(stage);
+
+        while(isPlaying&& commandQueue.size()>0) {
+            String commandKey = commandQueue.poll();
+            Runnable command = commandMap.get(commandKey);
+            if (command == null) {
+                System.out.println(commandKey+" : (경고!) 해당 명령을 수행할 수 없습니다!");
+                stage.printStageMap();
                 continue;
             }
-            runnable.run();
+            command.run();
         }
-        sc.close();
         return;
     }
 
