@@ -4,12 +4,6 @@ public class Stage {
     private MapObject[][] originalMap; // 스테이지 맵
     private MapObject[][] currentMap; // 현재 맵
 
-    public Stage(String stageName, MapObject[][] stageMap) {
-        this.stageName = stageName;
-        this.originalMap = stageMap;
-        this.currentMap = copyOriginalMap();
-    }
-
     // 스테이지를 초기화한다.
     public void reset() {
         this.currentMap = copyOriginalMap();
@@ -18,12 +12,30 @@ public class Stage {
         return;
     }
 
+    // 스테이지를 생성해서 반환한다.
+    public static Stage build(String stageText) {
+        Stage stage = new Stage();
+        String stageName = StageBuilder.getStageName(stageText);
+        MapObject[][] stageMap = StageBuilder.buildStageMap(stage, stageText);
+        stage.init(stageName, stageMap);
+        return stage;
+    }
+
+    // 스테이지를 초기화한다.
+    private void init(String stageName, MapObject[][] stageMap) {
+        this.stageName = stageName;
+        this.originalMap = stageMap;
+        this.currentMap = copyOriginalMap();
+    }
+
+    // Original Map을 복사해서 반환한다.
     private MapObject[][] copyOriginalMap() {
         MapObject[][] copyMap = new MapObject[originalMap.length][originalMap[0].length];
         for (int i=0; i<originalMap.length; i++) {
             for (int j=0; j<originalMap[i].length; j++) {
+                Point point = new Point(j,i);
                 char symbol = originalMap[i][j].getSymbol();
-                copyMap[i][j] = MapObject.getInstance(symbol);
+                copyMap[i][j] = MapObject.getInstance(this, point, symbol);
             }
         }
         return copyMap;

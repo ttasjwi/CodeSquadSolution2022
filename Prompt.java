@@ -32,8 +32,7 @@ public class Prompt {
         List<Stage> stages = new ArrayList<>();
 
         for(String stageSrc : stageStrSplits) {
-            StageBuilder stageBuilder = new StageBuilder(stageSrc);
-            Stage stage = stageBuilder.build();
+            Stage stage = Stage.build(stageSrc);
             stages.add(stage);
         }
         return stages;

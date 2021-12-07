@@ -1,6 +1,14 @@
 class StageDelim extends MapObject {
     private static final char symbol = '=';
 
+    private final Stage stage;
+    private Point point;
+
+    public StageDelim(Stage stage, Point point) {
+        this.stage = stage;
+        this.point = point;
+    }
+
     @Override
     public char getSymbol() {
         return this.symbol;
