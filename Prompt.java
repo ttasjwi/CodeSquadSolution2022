@@ -42,39 +42,20 @@ public class Prompt {
     // 실행
     public void run() {
         Stage stage2 = stages.get(1);
+        System.out.println(stage2.getStageName());
         stage2.printStageMap();
-        printCurrentStatus(stage2);
 
         stage2.movePlayerToEast();
-        printCurrentStatus(stage2);
+        stage2.printStageMap();
 
         stage2.movePlayerToSouth();
-        printCurrentStatus(stage2);
+        stage2.printStageMap();
 
         stage2.movePlayerToWest();
-        printCurrentStatus(stage2);
+        stage2.printStageMap();
 
         stage2.movePlayerToNorth();
-        printCurrentStatus(stage2);
-    }
-
-    // 지정 스테이지의 이름을 출력한다.
-    private void printStageName(Stage stage) {
-        System.out.println(stage.getStageName()+'\n');
-    }
-
-    // 지정 스테이지의 현재 상태를 출력한다.
-    private void printCurrentStatus(Stage stage) {
-        stage.printStageMap();
-        System.out.println("가로크기 : "+stage.getWidth());
-        System.out.println("세로크기 : "+stage.getHeight());
-        System.out.println("구멍의 수 : "+stage.getNmbOfHall());
-        System.out.println("공의 수 : "+stage.getNmbOfBall());
-        System.out.println("플레이어 위치 : "+stage.getPointOfPlayer().toString());
-        System.out.println("플레이어의 동쪽 좌표 : "+stage.getPointOfPlayer().getEastPoint().toString());
-        System.out.println("플레이어의 남쪽 좌표 : "+stage.getPointOfPlayer().getSouthPoint().toString());
-        System.out.println("플레이어의 서쪽 좌표 : "+stage.getPointOfPlayer().getWestPoint().toString());
-        System.out.println("플레이어의 북쪽 좌표 : "+stage.getPointOfPlayer().getNorthPoint().toString()+'\n');
+        stage2.printStageMap();
     }
 
 }
