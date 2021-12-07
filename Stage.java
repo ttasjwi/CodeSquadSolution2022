@@ -115,7 +115,7 @@ public class Stage {
     }
 
     // p1과 p2에 위치한 객체를 자리바꿈한다.
-    public boolean exchange(Point p1, Point p2) {
+    private boolean exchange(Point p1, Point p2) {
         if (p1 == p2) return false;
         MapObject mo1 = getMapObject(p1);
         MapObject mo2 = getMapObject(p2);
@@ -128,6 +128,34 @@ public class Stage {
         currentMap[p2.getY()][p2.getX()] = mo1;
         System.out.println("이동 성공");
         return true;
+    }
+
+    // 플레이어를 동쪽으로 이동시킨다.
+    public boolean movePlayerToEast() {
+        System.out.println("오른쪽으로 이동합니다.");
+        Point eastPoint = getPointOfPlayer().getEastPoint();
+        return exchange(getPointOfPlayer(), eastPoint);
+    }
+
+    // 플레이어를 남쪽으로 이동시킨다.
+    public boolean movePlayerToSouth() {
+        System.out.println("아래로 이동합니다.");
+        Point southPoint = getPointOfPlayer().getSouthPoint();
+        return exchange(getPointOfPlayer(), southPoint);
+    }
+
+    // 플레이어를 서쪽으로 이동시킨다.
+    public boolean movePlayerToWest() {
+        System.out.println("왼쪽으로 이동합니다.");
+        Point westPoint = getPointOfPlayer().getWestPoint();
+        return exchange(getPointOfPlayer(), westPoint);
+    }
+
+    // 플레이어를 북쪽으로 이동시킨다.
+    public boolean movePlayerToNorth() {
+        System.out.println("위로 이동합니다.");
+        Point northPoint = getPointOfPlayer().getNorthPoint();
+        return exchange(getPointOfPlayer(), northPoint);
     }
 
 }

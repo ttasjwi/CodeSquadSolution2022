@@ -44,6 +44,18 @@ public class Prompt {
         Stage stage2 = stages.get(1);
         printStageName(stage2);
         printCurrentStatus(stage2);
+
+        stage2.movePlayerToEast();
+        printCurrentStatus(stage2);
+
+        stage2.movePlayerToSouth();
+        printCurrentStatus(stage2);
+
+        stage2.movePlayerToWest();
+        printCurrentStatus(stage2);
+
+        stage2.movePlayerToNorth();
+        printCurrentStatus(stage2);
     }
 
     // 지정 스테이지의 이름을 출력한다.
