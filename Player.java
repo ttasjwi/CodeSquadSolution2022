@@ -5,6 +5,7 @@ public class Player extends MapObject {
 
     private final Stage stage;
     private Point point;
+    private Hall ownhall;
 
     public Player(Stage stage, Point point) {
         this.stage = stage;
@@ -24,6 +25,20 @@ public class Player extends MapObject {
     @Override
     public Point getPoint() {
         return this.point;
+    }
+
+    public void addHall(Hall hall) {
+        this.ownhall = hall;
+    }
+
+    public Hall removeHall() {
+        Hall hall = this.ownhall;
+        this.ownhall = null;
+        return hall;
+    }
+
+    public boolean hasHall() {
+        return this.ownhall == null;
     }
 
 }

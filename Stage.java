@@ -110,8 +110,8 @@ public class Stage {
         return currentMap[i][j];
     }
 
-    // 지정 인덱스에 위치한 맵 오브젝트를 반환한다.
-    private MapObject getMapObject(Point p) {
+    // 지정 좌표에 위치한 맵 오브젝트를 반환한다.
+    public MapObject getMapObject(Point p) {
         return getMapObject(p.getY(), p.getX());
     }
 

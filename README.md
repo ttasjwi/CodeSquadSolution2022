@@ -470,3 +470,15 @@
     - 기존과 차이 없음.
 
 ---
+
+### \[3.06 revision] Ball, Player가 Hall을 가질 수 있도록 함.
+
+1. 작업상황
+    - Player, Ball 클래스에 Hall 멤버변수 `ownHall`을 추가. 소지한 Hall을 가리킴
+      - `addHall(Hall hall)` : Hall을 소지한다.
+      - `Hall removeHall()` : 소지한 hall을 제거하고 반환함.
+      - `hasHall()` : hall을 가지고 있는지 여부를 boolean으로 반환함.
+2. 동작
+    - 기존과 차이 없음.
+
+---
