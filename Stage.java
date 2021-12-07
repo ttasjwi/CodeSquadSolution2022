@@ -3,6 +3,7 @@ public class Stage {
     private String stageName; // 스테이지명
     private MapObject[][] originalMap; // 스테이지 맵
     private MapObject[][] currentMap; // 현재 맵
+    private Player player; // 플레이어
 
     // 스테이지를 초기화한다.
     public void reset() {
@@ -26,6 +27,7 @@ public class Stage {
         this.stageName = stageName;
         this.originalMap = stageMap;
         this.currentMap = copyOriginalMap();
+        this.player = (Player) getMapObject(getPointOfPlayer());
     }
 
     // Original Map을 복사해서 반환한다.
