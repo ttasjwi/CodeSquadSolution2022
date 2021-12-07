@@ -20,4 +20,10 @@ public class Player extends MapObject {
     public boolean isMovable() {
         return true;
     }
+
+    @Override
+    public Point getPoint() {
+        return this.point;
+    }
+
 }

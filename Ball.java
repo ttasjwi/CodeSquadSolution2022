@@ -20,4 +20,9 @@ public class Ball extends MapObject {
         return false;
     }
 
+    @Override
+    public Point getPoint() {
+        return this.point;
+    }
+
 }

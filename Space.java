@@ -21,4 +21,8 @@ public class Space extends MapObject {
         return true;
     }
 
+    @Override
+    public Point getPoint() {
+        return this.point;
+    }
 }

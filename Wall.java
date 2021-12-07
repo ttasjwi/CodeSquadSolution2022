@@ -19,4 +19,10 @@ class Wall extends MapObject {
     public boolean isMovable() {
         return false;
     }
+
+    @Override
+    public Point getPoint() {
+        return this.point;
+    }
+
 }
