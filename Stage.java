@@ -7,11 +7,18 @@ public class Stage {
     public Stage(String stageName, MapObject[][] stageMap) {
         this.stageName = stageName;
         this.originalMap = stageMap;
-        this.currentMap = reset();
+        this.currentMap = copyOriginalMap();
     }
 
     // 스테이지를 초기화한다.
-    private MapObject[][] reset() {
+    public void reset() {
+        this.currentMap = copyOriginalMap();
+        System.out.println("R : 스테이지를 초기화합니다.");
+        printStageMap();
+        return;
+    }
+
+    private MapObject[][] copyOriginalMap() {
         MapObject[][] copyMap = new MapObject[originalMap.length][originalMap[0].length];
         for (int i=0; i<originalMap.length; i++) {
             for (int j=0; j<originalMap[i].length; j++) {

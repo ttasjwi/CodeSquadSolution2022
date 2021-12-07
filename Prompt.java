@@ -84,6 +84,7 @@ public class Prompt {
         commandMap.put("A", () -> stage.movePlayerToWest());
         commandMap.put("S", () -> stage.movePlayerToSouth());
         commandMap.put("D", () -> stage.movePlayerToEast());
+        commandMap.put("R", () -> stage.reset());
         return commandMap;
     }
 

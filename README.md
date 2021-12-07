@@ -416,3 +416,17 @@
 ---
 
 ## 3단계
+
+### \[3.01 revision] 스테이지 맵 리셋 기능 추가
+
+1. 작업상황
+    - Stage 클래스 변경
+        - 생성자 : currentMap 초기 설정에서, `copyOriginalMap()` 메서드에 의해 만들어진 복사본을 기반으로 설정되도록 함.
+        - `reset()` : 스테이지 맵을 초기화하는 void 메서드
+      - `copyOriginalMap()` : originalMap을 복사하여 반환
+    - Prompt 클래스 변경
+      - `initCommandMap(Stage stage)` : R 명령 추가. R 입력시 스테이지를 리셋함.
+2. 동작
+    - 리셋 기능이 추가됨.
+
+---
