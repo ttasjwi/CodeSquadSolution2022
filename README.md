@@ -349,4 +349,24 @@
 
 ---
 
+### \[2.17 revision] `initCommandMap(Stage stage)` 메서드 추가
+
+1. 작업상황 
+   - 멤버변수 `isPlaying` : 초기값은 `true`, 종료 명령이 들어왔을 때 `false`로 변한다. 무한 반복문을 종료하기위한 용도로 사용.
+   - `initCommandMap(Stage stage)` : stage를 기반으로 하여, 수행할 작업들을 모아둔 `Map<String, Runnable>`을 생성하는 메서드
+     - key값 : 으로 W,A,S,D,Q와 같은 입력값
+     - value값 : W,A,S, D에 대해서는 stage의 플레이어 이동을 수행하는 Runnable을 저장, Q에 대해서는 현재 Prompt의 `isRunnable`을 `false`로 변경하도록 함.
+   - `execute` 메서드
+     - commandMap 생성 : `initCommandMap` 메서드를 통해 `stage`의 commandMap 생성
+     - Queue<String>에 명령어 D,S,A,W,Q,S를 순차적으로 삽입
+     - while문에서, queue에서 poll한 값들로 commandQueue에서 value인 Runnable을 찾도록 한다.
+     - 각각 Runnable의 작업을 수행하도록 한다.
+2. 동작
+    - 실행 시 스테이지 명이 바로 뜨고, 맵이 출력된다.
+    - stage의 command맵이 생성된다.
+    - 맵이 출력되고 D, S, A, F, Q, S 문자열을 Queue에 삽입한다.
+    - 반복문을 통해 queue의 작업이 순차적으로 출력된다.
+      - while문 도중에 Q 명령에 의해 `isPlaying`이 false가 되고 반복문을 탈출하여 프로그램이 종료된다.
+---
+
 ## 3단계

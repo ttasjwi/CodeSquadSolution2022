@@ -1,14 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Prompt {
 
     private static final String MAP_FILE_DIR = "Map.txt";
     private static final File MAP_FILE = new File(MAP_FILE_DIR);
     private static final List<Stage> stages = initStages();
+    private boolean isPlaying = true;
 
     //소스파일에서 스테이지단위로 텍스트를 분리한다.
     private static List<String> splitStageStr(File mapFile) {
@@ -44,10 +43,32 @@ public class Prompt {
         Stage stage2 = stages.get(1);
         System.out.println(stage2.getStageName());
 
-        stage2.movePlayerToEast();
-        stage2.movePlayerToSouth();
-        stage2.movePlayerToWest();
-        stage2.movePlayerToNorth();
+        Map<String, Runnable> commandMap = initCommandMap(stage2);
+        Queue<String> queue = new LinkedList<>();
+        queue.add("D");
+        queue.add("S");
+        queue.add("A");
+        queue.add("W");
+        queue.add("Q");
+        queue.add("S");
+
+        while (isPlaying && queue.size()>0) {
+            String command = queue.poll();
+            Runnable runnable = commandMap.get(command);
+            runnable.run();
+        }
+        System.out.println("bye~");
+    }
+
+    // 지정 stage에 대하여 수행할 작업들을 저장할, commandMap을 생성하여 반환함.
+    private Map<String, Runnable> initCommandMap(Stage stage) {
+        Map<String, Runnable> commandMap = new HashMap<>();
+        commandMap.put("Q", () -> isPlaying=false);
+        commandMap.put("W", () -> stage.movePlayerToNorth());
+        commandMap.put("A", () -> stage.movePlayerToWest());
+        commandMap.put("S", () -> stage.movePlayerToSouth());
+        commandMap.put("D", () -> stage.movePlayerToEast());
+        return commandMap;
     }
 
 }
