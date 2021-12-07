@@ -58,7 +58,11 @@ public class Prompt {
         System.out.println("세로크기 : "+stage.getHeight());
         System.out.println("구멍의 수 : "+stage.getNmbOfHall());
         System.out.println("공의 수 : "+stage.getNmbOfBall());
-        System.out.println("플레이어 위치 : "+stage.getPointOfPlayer().toString()+'\n');
+        System.out.println("플레이어 위치 : "+stage.getPointOfPlayer().toString());
+        System.out.println("플레이어의 동쪽 좌표 : "+stage.getPointOfPlayer().getEastPoint().toString());
+        System.out.println("플레이어의 남쪽 좌표 : "+stage.getPointOfPlayer().getSouthPoint().toString());
+        System.out.println("플레이어의 서쪽 좌표 : "+stage.getPointOfPlayer().getWestPoint().toString());
+        System.out.println("플레이어의 북쪽 좌표 : "+stage.getPointOfPlayer().getNorthPoint().toString()+'\n');
     }
 
 }

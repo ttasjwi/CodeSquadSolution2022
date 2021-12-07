@@ -215,4 +215,17 @@
 
 ---
 
+### \[2.06 revision] 지정좌표의 동서남푹 좌표를 반환하는 메서드 각각 생성
+
+1.작업상황
+- Point 클래스에서 `getEastPoint()`, `getSouthPoint()`, `getWestPoint()`, `getNorthPoint()` 메서드 정의
+  - 각각 Point 기준 동쪽, 남쪽, 서쪽, 북쪽 좌표를 반환함
+- Prompt 클래스의 `printCurrentStatus` 메서드가, 플레이어 기준 동남서북의 좌표를 출력하도록 함.
+
+2. 동작
+- 실행 시 Stage2의 스테이지명이 출력되고, 현재 스테이지 상태를 출력하면서 종료된다.
+  - 추가내용 : 플레이어의 동남서북 좌표도 출력
+
+---
+
 ## 3단계

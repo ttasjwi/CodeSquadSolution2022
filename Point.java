@@ -21,6 +21,26 @@ public class Point {
         return y;
     }
 
+    // 왼쪽 좌표 반환
+    public Point getWestPoint() {
+        return new Point(this.getX()-1, this.getY());
+    }
+
+    // 오른쪽 좌표 반환
+    public Point getEastPoint() {
+        return new Point(this.getX()+1, this.getY());
+    }
+
+    // 아랫쪽(남쪽) 좌표 반환
+    public Point getSouthPoint() {
+        return new Point(this.getX(), this.getY()+1);
+    }
+
+    // 윗쪽(윗쪽) 좌표 반환
+    public Point getNorthPoint() {
+        return new Point(this.getX(), this.getY()-1);
+    }
+
     @Override
     //좌표의 상등
     public boolean equals(Object o) {
