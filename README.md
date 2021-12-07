@@ -157,5 +157,17 @@
 ---
 
 ## 2단계
+### \[2.01 revision] Stage 클래스 - reset() 메서드 생성
+1. 작업상황
+- `stageMap`을 `originalMap`과 `currentMap` 두가지로 나눔
+  - `originalMap`은 Stage 생성시점의 원본 맵
+  - `currentMap`은 현재 맵. 플레이어의 조작에 따라 currentMap이 변화하도록 할 것이다.
+- `reset()` : `originalMap`을 복제하여 `currentMap`을 초기화함.
+  - 깊은 복사를 위하여 내부 MapObject Code 인 Integer 값들을 새로 생성했다.
+
+2. 동작
+   - 실행시 콘솔에 보이는 내용은 이전 revision과 별 차이 없음. 실행 시 모든 stage의 세부사항을 출력함.
+
+---
 
 ## 3단계

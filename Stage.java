@@ -1,7 +1,8 @@
 public class Stage {
 
     private String stageName; // 스테이지명
-    private Integer[][] stageMap; // 스테이지 맵
+    private Integer[][] originalMap; // 스테이지 맵
+    private Integer[][] currentMap; // 현재 맵
 
     public static final Integer WALL_CODE = 0; // 벽
     public static final Integer HALL_CODE = 1; // 구멍
@@ -18,7 +19,19 @@ public class Stage {
 
     public Stage(String stageName, Integer[][] stageMap) {
         this.stageName = stageName;
-        this.stageMap = stageMap;
+        this.originalMap = stageMap;
+        this.currentMap = reset();
+    }
+
+    // 스테이지를 초기화한다.
+    private Integer[][] reset() {
+        Integer[][] copyMap = new Integer[originalMap.length][originalMap[0].length];
+        for (int i=0; i<originalMap.length; i++) {
+            for (int j=0; j<originalMap[i].length; j++) {
+                copyMap[i][j] = (originalMap[i][j] == null) ? null : Integer.valueOf(originalMap[i][j]);
+            }
+        }
+        return copyMap;
     }
 
     //Integer을 읽고 문자로 형식화한다.
@@ -38,9 +51,9 @@ public class Stage {
     public String getMapString() {
         StringBuilder sb = new StringBuilder();
 
-        for (int i=0; i<stageMap.length-1; i++) { //마지막 줄은 제외한다.
-            for (int j=0; j<stageMap[i].length; j++) {
-                sb.append(getMapSymbol(stageMap[i][j]));
+        for (int i=0; i<currentMap.length-1; i++) { //마지막 줄은 제외한다.
+            for (int j=0; j<currentMap[i].length; j++) {
+                sb.append(getMapSymbol(currentMap[i][j]));
             }
             sb.append('\n');
         }
@@ -60,10 +73,10 @@ public class Stage {
     //SatgeMap에서 지정 MapCode에 대응하는 오브젝트의 갯수를 반환
     private int getNmbOf(Integer mapObjectCode) {
         int countOfHall = 0;
-        for (int i=0; i<stageMap.length; i++) {
-            for (int j=0; j<stageMap[i].length; j++) {
-                if (stageMap[i][j] == null) continue;
-                if (stageMap[i][j].equals(mapObjectCode)) countOfHall ++;
+        for (int i=0; i<currentMap.length; i++) {
+            for (int j=0; j<currentMap[i].length; j++) {
+                if (currentMap[i][j] == null) continue;
+                if (currentMap[i][j].equals(mapObjectCode)) countOfHall ++;
             }
         }
         return countOfHall;
@@ -71,12 +84,12 @@ public class Stage {
 
     // 맵의 가로폭 반환
     public int getWidth() {
-        return this.stageMap[0].length;
+        return this.currentMap[0].length;
     }
 
     // 맵의 세로폭 반환
     public int getHeight() {
-        return this.stageMap.length;
+        return this.currentMap.length;
     }
 
     // 스테이지명 반환
@@ -86,9 +99,9 @@ public class Stage {
 
     // 플레이어의 좌표 반환
     public Point getPointOfPlayer() {
-        for (int i=0; i<stageMap.length; i++) {
-            for (int j=0; j<stageMap[i].length; j++) {
-                Integer mapObjectCode = stageMap[i][j];
+        for (int i=0; i<currentMap.length; i++) {
+            for (int j=0; j<currentMap[i].length; j++) {
+                Integer mapObjectCode = currentMap[i][j];
                 if (isPlayer(mapObjectCode)) return new Point(i,j);
             }
         }
