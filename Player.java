@@ -38,7 +38,11 @@ public class Player extends MapObject {
     }
 
     public boolean hasHall() {
-        return this.ownhall == null;
+        return this.ownhall != null;
+    }
+
+    public void moveTo(Point point) {
+        this.point = point;
     }
 
 }

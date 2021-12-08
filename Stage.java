@@ -60,6 +60,7 @@ public class Stage {
     //StageMap에서 구멍의 갯수를 반환
     public int getNmbOfHall() {
         int countOfHall = 0;
+        if (player.hasHall()) countOfHall ++;
         for (int i=0; i<currentMap.length; i++) {
             for (int j=0; j<currentMap[i].length; j++) {
                 if (isHall(currentMap[i][j])) countOfHall ++;
@@ -141,52 +142,136 @@ public class Stage {
         return;
     }
 
-    // p1과 p2에 위치한 객체를 자리바꿈한다.
-    private boolean exchange(Point p1, Point p2) {
-        if (p1 == p2) return false;
-        MapObject mo1 = getMapObject(p1);
-        MapObject mo2 = getMapObject(p2);
-
-        if (!(mo1.isMovable()&&mo2.isMovable())) {
-            return false;
-        }
-        currentMap[p1.getY()][p1.getX()] = mo2;
-        currentMap[p2.getY()][p2.getX()] = mo1;
-        return true;
-    }
-
     // 플레이어를 동쪽(오른쪽)으로 이동시킨다.
     public void movePlayerToEast() {
-        Point eastPoint = getPointOfPlayer().getEastPoint();
-        boolean exchange = exchange(getPointOfPlayer(), eastPoint);
-        System.out.println((exchange)? "D : 오른쪽으로 이동합니다." : "D : (경고!) 해당 명령을 수행할 수 없습니다!");
+        Point playerPoint = player.getPoint();
+        Point eastPoint = playerPoint.getEastPoint();
+        MapObject eastObject = getMapObject(eastPoint);
+        if (isSpace(eastObject)) {
+            movePlayerToSpace(eastPoint);
+            System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
+            printStageMap();
+            return;
+        }
+
+        if (isHall(eastObject)) {
+            movePlayerToHall(eastPoint);
+            System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
+            printStageMap();
+            return;
+        }
+        System.out.println("D : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
         return;
     }
 
+    // 플레이어를 Space로 이동시킨다.
+    private boolean movePlayerToSpace(Point spacePoint) {
+        MapObject arrivalObject = getMapObject(spacePoint);
+        if (!isSpace(arrivalObject)) {
+            return false;
+        }
+        Player player = splitPlayerFromMap();
+        this.currentMap[spacePoint.getY()][spacePoint.getX()] = player; // Space의 인덱스를 Player에게 계승시킨다.
+        player.moveTo(spacePoint); // Space의 좌표를 player에게 계승시킨다.
+        return true;
+    }
+
+    // 플레이어를 Hall로 이동시킨다.
+    private boolean movePlayerToHall(Point hallPoint) {
+        MapObject arrivalObject = getMapObject(hallPoint); // 도착 지점의 MapObject
+        if (!isHall(arrivalObject)) return false; // Hall이 아니면 false 반환
+
+        Hall arrivalHall = (Hall) arrivalObject; // arrivalObject를 hall로 형변환
+        Player player = splitPlayerFromMap(); // 플레이어를 Map에서 분리시킨다.
+        player.addHall(arrivalHall); // 플레이어에게 오른쪽 hall을 추가시킨다.
+        this.currentMap[hallPoint.getY()][hallPoint.getX()] = player; // 플레이어의 맵에서의 위치를 오른쪽으로 이동시킴.
+        player.moveTo(hallPoint); // 플레이어의 왼쪽
+        return true;
+    }
+
+    // Map에서 플레이어를 분리시킨다.
+    private Player splitPlayerFromMap() {
+        Player player = this.player;
+
+        if (player.hasHall()) {
+            Hall wasOwnedHall = player.removeHall(); // 플레이어에게서 Hall을 제거
+            this.currentMap[player.getPoint().getY()][player.getPoint().getX()] = wasOwnedHall; // 소지했던 hall을 맵에 놓는다.
+            player.moveTo(null);
+            return player;
+        }
+
+        Space space = new Space(this, player.getPoint());
+        this.currentMap[player.getPoint().getY()][player.getPoint().getX()] = space;
+        player.moveTo(null);
+        return player;
+    }
+
     // 플레이어를 남쪽(아래)으로 이동시킨다.
     public void movePlayerToSouth() {
-        Point southPoint = getPointOfPlayer().getSouthPoint();
-        boolean exchange = exchange(getPointOfPlayer(), southPoint);
-        System.out.println((exchange)? "S : 아래로 이동합니다." : "S : (경고!) 해당 명령을 수행할 수 없습니다!");
+        Point playerPoint = player.getPoint();
+        Point southPoint = playerPoint.getSouthPoint();
+        MapObject southObject = getMapObject(southPoint);
+
+        if (isSpace(southObject)) {
+            System.out.println("S : 플레이어를 아래로 이동합니다.");
+            movePlayerToSpace(southPoint);
+            printStageMap();
+            return;
+        }
+        if (isHall(southObject)) {
+            System.out.println("S : 플레이어를 아래로 이동합니다.");
+            movePlayerToHall(southPoint);
+            printStageMap();
+            return;
+        }
+        System.out.println("S : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
         return;
     }
 
     // 플레이어를 서쪽(왼쪽)으로 이동시킨다.
     public void movePlayerToWest() {
-        Point westPoint = getPointOfPlayer().getWestPoint();
-        boolean exchange = exchange(getPointOfPlayer(), westPoint);
-        System.out.println((exchange)? "A : 왼쪽으로 이동합니다." : "A : (경고!) 해당 명령을 수행할 수 없습니다!");
+        Point playerPoint = player.getPoint();
+        Point westPoint = playerPoint.getWestPoint();
+        MapObject westObject = getMapObject(westPoint);
+
+        if (isSpace(westObject)) {
+            System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
+            movePlayerToSpace(westPoint);
+            printStageMap();
+            return;
+        }
+        if (isHall(westObject)) {
+            System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
+            movePlayerToHall(westPoint);
+            printStageMap();
+            return;
+        }
+        System.out.println("A : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
         return;
     }
 
     // 플레이어를 북쪽(위)으로 이동시킨다.
     public void movePlayerToNorth() {
-        Point northPoint = getPointOfPlayer().getNorthPoint();
-        boolean exchange = exchange(getPointOfPlayer(), northPoint);
-        System.out.println((exchange)? "W : 위로 이동합니다." : "W : (경고!) 해당 명령을 수행할 수 없습니다!");
+        Point playerPoint = player.getPoint();
+        Point northPoint = playerPoint.getNorthPoint();
+        MapObject northObject = getMapObject(northPoint);
+
+        if (isSpace(northObject)) { // 이동하려는 곳이 공백이면
+            System.out.println("W : 플레이어를 위로 이동합니다.");
+            movePlayerToSpace(northPoint);
+            printStageMap();
+            return;
+        }
+        if (isHall(northObject)) {
+            System.out.println("W : 플레이어를 위로 이동합니다.");
+            movePlayerToHall(northPoint);
+            printStageMap();
+            return;
+        }
+        System.out.println("W : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
         return;
     }

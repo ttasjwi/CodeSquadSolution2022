@@ -482,3 +482,23 @@
     - 기존과 차이 없음.
 
 ---
+
+### \[3.07 revision] 플레이어가 구멍 위를 지나갈 수 있도록 함.
+
+1. 작업상황
+    - Player, Hall의 `hasHall()` 메서드 오류 수정 : hall을 가지고 있지 않으면 true가 반환되는 문제가 있었으나 정정함.
+    - 지정 두 좌표의 맵 오브젝트를 교체하는 `exchange` 메서드 제거
+    - `splitPlayerFromMap()` 추가 : 플레이어를 맵의 위치에서 제거하고 플레이어를 반환하는 메서드. Hall을 가지고 있으면 Hall을 놓고, 아니면 그 자리에 Space를 놓는다.
+    - `movePlayerToHall(Point hallPoint)` 추가 : 플레이어를 지정 좌표의 Hall로 이동하는 메서드. 플레이어는 Hall을 가지게 된다.
+    - `movePlayerToSpace(Point spacePoint)` 추가 : 플레이어를 지정 좌표의 Space로 이동하는 메서드.
+        - `addHall(Hall hall)` : Hall을 소지한다.
+        - `Hall removeHall()` : 소지한 hall을 제거하고 반환함.
+        - `hasHall()` : hall을 가지고 있는지 여부를 boolean으로 반환함.
+    - `movePlayerToEast`, `movePlayerToSouth`, `movePlayerToWest`, `movePlayerToNorth` : 플레이어를 동남서북으로 이동시킴.
+    - `getNmbOfHall()` : 플레이어가 Hall을 가지고 있는 경우도 전체 Hall의 갯수로 집계함.
+2. 동작
+    - 플레이어가 구멍 위를 지나갈 수 있음.
+    - 구멍 위에 있을 때는 구멍이 보이지 않지만, 플레이어가 구멍을 통과할 때 구멍이 다시 보인다.
+
+---
+

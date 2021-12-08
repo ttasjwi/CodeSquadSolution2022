@@ -27,7 +27,7 @@ public class Ball extends MapObject {
     }
 
     public boolean hasHall() {
-        return this.ownhall == null;
+        return this.ownhall != null;
     }
 
     public void addHall(Hall hall) {
