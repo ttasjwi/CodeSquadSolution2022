@@ -6,7 +6,6 @@ public class Prompt {
 
     private static final String MAP_FILE_DIR = "Map.txt";
     private static final File MAP_FILE = new File(MAP_FILE_DIR);
-    private static final List<Stage> stages = initStages();
     private static final String PROMPT = "SOKOBAN > ";
     private boolean isPlaying = true;
 
@@ -28,6 +27,8 @@ public class Prompt {
 
     // List<Stage> 초기화
     private static List<Stage> initStages() {
+        System.out.println("\n소코반의 세계에 당도한 것을 환영하오. 낯을 환영하오, 낯선이여~");
+        System.out.println("즐겁게 놀다가시오~\n");
         List<String> stageStrSplits = splitStageStr(MAP_FILE);
         List<Stage> stages = new ArrayList<>();
 
@@ -40,28 +41,36 @@ public class Prompt {
 
     // 실행
     public void execute() {
+        List<Stage> stages = initStages();
         Scanner sc = new Scanner(System.in);
-        Stage stage2 = stages.get(1);
-        playStage(stage2, sc);
+        for (Stage stage : stages) {
+            playStage(stage, sc);
+            if (!isPlaying) break;
+        }
+        if (isPlaying) System.out.println("전체 게임을 클리어하셨습니다!\n축하드립니다!");
         sc.close();
         return;
     }
 
     // 실제로 각 스테이지를 사용자가 플레이하는 부분의 메서드
     private void playStage(Stage stage, Scanner sc) {
-        System.out.println(stage.getStageName());
+        System.out.println(stage.getStageName()+'\n');
         stage.printStageMap();
         while(isPlaying) {
             System.out.print(PROMPT);
             runCommandQueue(stage, inputCommandQueue(sc));
+            if (stage.isCleared()) {
+                System.out.println("빠밤! "+stage.getStageName() +" 클리어! ");
+                System.out.println("턴수 : "+stage.getCurrentTurn()+"\n");
+                break;
+            }
         }
         return;
     }
 
-    // stage에 대하여 지정 Queue의 내용을 순차적으로 수행한다.
+    // stage에 대하여 지정 Queue의 내용을 순차적으로 수행하고, 수행이 종료되면 종료하기까지 소요된 turn을 반환한다.
     private void runCommandQueue(Stage stage, Queue<String> commandQueue) {
         Map<String, Runnable> commandMap = initCommandMap(stage);
-
         while(isPlaying&& commandQueue.size()>0) {
             String commandKey = commandQueue.poll();
             Runnable command = commandMap.get(commandKey);

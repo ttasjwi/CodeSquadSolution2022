@@ -4,11 +4,13 @@ public class Stage {
     private MapObject[][] originalMap; // 스테이지 맵
     private MapObject[][] currentMap; // 현재 맵
     private Player player; // 플레이어
+    private int turn; // 현재 턴
 
     // 스테이지를 초기화한다.
     public void reset() {
         this.currentMap = copyOriginalMap();
         System.out.println("R : 스테이지를 초기화합니다.");
+        this.turn = 0;
         printStageMap();
         return;
     }
@@ -78,6 +80,26 @@ public class Stage {
             }
         }
         return countOfBall;
+    }
+
+    //StageMap에서 구멍에 들어가진 공의 갯수를 반환
+    public int getNmbOfInputtedBall() {
+        int countOfInputtedBall = 0;
+        for (int i=0; i<currentMap.length; i++) {
+            for (int j=0; j<currentMap[i].length; j++) {
+                countOfInputtedBall = InputtedBallCount(countOfInputtedBall, currentMap[i][j]); // hall이 있는 ball이면 countOfBall을 증가시켜서 반환
+            }
+        }
+        return countOfInputtedBall;
+    }
+
+    // 지정 MapObject가 구멍을 가진 Ball이면 매개변수 int값을 증가시켜서 반환
+    private int InputtedBallCount(int countOfInputtedBall, MapObject mo) {
+        if (isBall(mo)) {
+            Ball ball = (Ball)mo;
+            countOfInputtedBall += (ball.hasHall())? 1 : 0;
+        }
+        return countOfInputtedBall;
     }
 
     // 맵의 가로폭 반환
@@ -233,6 +255,7 @@ public class Stage {
             movePlayerToSpace(eastPoint);
             System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
 
@@ -246,6 +269,7 @@ public class Stage {
             movePlayerToHall(eastPoint);
             System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
         System.out.println("D : (경고!) 해당 명령을 수행할 수 없습니다!");
@@ -263,6 +287,7 @@ public class Stage {
             movePlayerToSpace(southPoint);
             System.out.println("S : 플레이어를 아래로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
 
@@ -276,6 +301,7 @@ public class Stage {
             movePlayerToHall(southPoint);
             System.out.println("S : 플레이어를 아래로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
         System.out.println("S : (경고!) 해당 명령을 수행할 수 없습니다!");
@@ -292,6 +318,7 @@ public class Stage {
             movePlayerToSpace(westPoint);
             System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
 
@@ -305,6 +332,7 @@ public class Stage {
             movePlayerToHall(westPoint);
             System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
         System.out.println("A : (경고!) 해당 명령을 수행할 수 없습니다!");
@@ -321,6 +349,7 @@ public class Stage {
             movePlayerToSpace(northPoint);
             System.out.println("W : 플레이어를 위로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
 
@@ -334,6 +363,7 @@ public class Stage {
             movePlayerToHall(northPoint);
             System.out.println("W : 플레이어를 위로 이동합니다.");
             printStageMap();
+            this.turn ++;
             return true;
         }
 
@@ -342,4 +372,11 @@ public class Stage {
         return false;
     }
 
+    public boolean isCleared() {
+        return getNmbOfBall() == getNmbOfInputtedBall();
+    }
+
+    public int getCurrentTurn() {
+        return this.turn;
+    }
 }

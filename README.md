@@ -523,3 +523,26 @@
     - 공이 다시 구멍에서 빠져나가면 공과 구멍이 분리됨
 
 --- 
+
+### \[3.09 revision] 클리어 조건 추가 및 전 스테이지 클리어 메시지 추가
+
+1. 작업상황
+    - Stage 클래스
+      - `isCleared()` : 클리어 여부를 반환함.
+        - Clear 조건 : 스테이지의 공의 갯수와, Hall을 가진 공의 갯수가 일치할 때
+      - `getNmbOfInputtedBall()` : Hall에 들어가져있는 Ball의 갯수를 반환함
+        - `InputtedBallCount(int countOfInputtedBall, MapObject mo)` : 지정 MapObject가 구멍을 가진 Ball이면 매개변수 int값을 증가시켜서 반환
+      - 멤버 `turn` 추가
+        - reset() 명령 실행 시 turn이 0이 되도록 함.
+        - 플레이어의 `moveToWest`,`moveToEast`, `moveToSouth`, `moveToNorth` 명령이 성공했을 때 turn 값이 1 증가함.
+        - `getCurrentTurn()` : 현재 턴을 반환함
+    - Prompt 클래스
+      - 게임 시작 환영메시지 추가
+      - static 상수로 취급했던 `List<Stage> stages을 `execute` 메서드에서 지역변수로 하도록 함.
+      - stages의 모든 멤버를 소모하고, Prompt가 `isPlaying` 상태일 때 전체 클리어 메시지를 출력하고 프로그램이 종료됨.
+2. 동작
+    - 스테이지 1부터 스테이지2까지(현재 소스파일에 포함된 스테이지는 2까지이다.) 클리어할 때마다 순서대로 실행함.
+    - 각 스테이지 클리어 시 축하메시지와, 해당 스테이지의 소요 turn 수(이동 횟수)를 출력함.
+    - 모든 스테이지 클리어 및 `isPlaying` 상태일 때 전체 클리어 메시지를 출력하고 프로그램이 종료됨.
+
+--- 
