@@ -10,6 +10,7 @@ public class Stage {
     public void reset() {
         this.currentMap = copyOriginalMap();
         System.out.println("R : 스테이지를 초기화합니다.");
+        this.player = (Player) getMapObject(getPointOfPlayer());
         this.turn = 0;
         printStageMap();
         return;
