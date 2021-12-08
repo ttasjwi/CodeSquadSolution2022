@@ -88,17 +88,24 @@ public class Prompt {
     private Map<String, Runnable> initCommandMap(Stage stage) {
         Map<String, Runnable> commandMap = new HashMap<>();
         commandMap.put("Q", () -> isPlaying=false);
+        commandMap.put("q", () -> isPlaying=false);
         commandMap.put("W", () -> stage.movePlayerToNorth());
+        commandMap.put("w", () -> stage.movePlayerToNorth());
         commandMap.put("A", () -> stage.movePlayerToWest());
+        commandMap.put("a", () -> stage.movePlayerToWest());
         commandMap.put("S", () -> stage.movePlayerToSouth());
+        commandMap.put("s", () -> stage.movePlayerToSouth());
         commandMap.put("D", () -> stage.movePlayerToEast());
+        commandMap.put("d", () -> stage.movePlayerToEast());
+        commandMap.put("u", () -> stage.redo());
         commandMap.put("R", () -> stage.reset());
+        commandMap.put("r", () -> stage.reset());
         return commandMap;
     }
 
     // 사용자로부터 명령을 라인단위로 입력받는다.
     private Queue<String> inputCommandQueue(Scanner sc) {
-        String inputLine = sc.nextLine().trim().toUpperCase();
+        String inputLine = sc.nextLine().trim();
         Queue cmdQueue = new LinkedList(Arrays.asList(inputLine.split("")));
         return cmdQueue;
     }

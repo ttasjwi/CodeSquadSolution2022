@@ -653,3 +653,24 @@
    - **여기까지를 3단계로 제출하도록 함.**
 
 ---
+
+## 4단계
+
+### \[4.01 revision] 이전 턴으로 돌아가는 기능 추가, `copyMap` 메서드 추가
+1. 작업상황
+   - `Stack<MapObject[][]> afterStack` 추가 : 되돌아가기 기능을 할 때 현재 턴을 저장하는 스택
+   - Stage의 redo() 메서드 추가
+     - afterStack에 현재 stage를 저장
+     - beforeStack에서 가장 위에 있는 MapObject[][]을 가져와 currentMap으로 함.
+     - 돌아가는데 성공하면 성공메시지를, 가장 첫번째 턴일 경우 실패 메시지를 출력함.
+   - Stage의 `CopyMap` 메서드 추가
+     - Stage의 기록인 `MapObject[][]`을 Stack에 저장할 때 깊은 복사를 해야함. (내부 객체를 새로 생성해야함.)
+     - 따라서 기존의 `CopyOriginal()` 메서드를 일반화함. 지정 MapObject[][]을 깊은 복사하는 메서드로 일반화. ->  `copyMap(MapObject[][] stageMap)`
+   - Stage의 `recordBeforeTurn` 메서드 수정
+     - 현재 currentMap[][]을 깊은 복사해서 beforeStack에 저장함.
+   - Prompt의 `inputCommandQueue` 수정 : 입력을 모두 대문자화했는데, u와 (추후 추가 예정)U를 구분하기 위해서는 대문자화를 하면 안 된다.
+   - Prompt의 `initCommandMap` 수정 : q,Q,w,W, ... 대소문자 구분을 했었는데 그냥 따로 처리하게 함. 추가로 u 명령어 추가
+2. 동작
+   - 되돌아가기 기능이 추가됐다. (u 명령어)
+
+---

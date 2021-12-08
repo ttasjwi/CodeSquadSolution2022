@@ -1,3 +1,4 @@
+import java.util.Map;
 import java.util.Stack;
 
 public class Stage {
@@ -6,12 +7,14 @@ public class Stage {
     private MapObject[][] originalMap; // 원본 맵
     private MapObject[][] currentMap; // 현재 맵
     private Stack<MapObject[][]> beforeStack = new Stack<>(); // 이전 턴들을 Stack으로 쌓음.
+    private Stack<MapObject[][]> afterStack = new Stack<>(); // 돌악가기를 시도할 때마다 현재 턴의 데이터를 AfterTurn에 쌓는다.
 
     // 스테이지를 초기화한다.
     public void reset() {
         System.out.println("R : 스테이지를 초기화합니다.");
-        this.currentMap = copyOriginalMap();
+        this.currentMap = copyMap(originalMap);
         this.beforeStack.clear();
+        this.afterStack.clear();
         printStageMap();
         return;
     }
@@ -29,16 +32,16 @@ public class Stage {
     private void init(String stageName, MapObject[][] stageMap) {
         this.stageName = stageName;
         this.originalMap = stageMap;
-        this.currentMap = copyOriginalMap();
+        this.currentMap = copyMap(originalMap);
     }
 
-    // Original Map을 복사해서 반환한다.
-    private MapObject[][] copyOriginalMap() {
-        MapObject[][] copyMap = new MapObject[originalMap.length][originalMap[0].length];
-        for (int i=0; i<originalMap.length; i++) {
-            for (int j=0; j<originalMap[i].length; j++) {
+    // stage Map을 깊은 복사해서 반환한다.
+    private MapObject[][] copyMap(MapObject[][] stageMap) {
+        MapObject[][] copyMap = new MapObject[stageMap.length][stageMap[0].length];
+        for (int i=0; i<stageMap.length; i++) {
+            for (int j=0; j<stageMap[i].length; j++) {
                 Point point = new Point(j,i);
-                char symbol = originalMap[i][j].getSymbol();
+                char symbol = stageMap[i][j].getSymbol();
                 copyMap[i][j] = MapObject.getInstance(this, point, symbol);
             }
         }
@@ -337,6 +340,26 @@ public class Stage {
 
     // 변화 직전, beforeStack에 Map상태를 push(저장)한다.
     private void recordBeforeTurn() {
-        beforeStack.push(currentMap); // 현재 맵을 beforeStack에 push한다.
+        MapObject[][] beforeMap = copyMap(currentMap); // 깊은 복사(내부 객체까지 새로 복사)를 해야한다.
+        beforeStack.push(beforeMap); // 현재 맵을 beforeStack에 push한다.
+        if (!afterStack.empty()) { // afterStack(본래 세계선을 과거에 박제)이 비어있지 않다 == 되돌아간 상황 ==> 별도의 행동을 한다 ==> 미래가 바뀜. 두 세계선이 갈라짐.
+            afterStack.clear();
+        }
     }
+
+    // 이전 턴으로 돌아간다.
+    public boolean redo() {
+        if (beforeStack.empty()) {
+            System.out.println("u : (경고!) 해당 명령을 수행할 수 없습니다. 더 이상 돌아갈 수 없습니다.");
+            printStageMap();
+            return false;
+        }
+        System.out.println("u : 이전 턴으로 돌아갑니다.");
+        afterStack.push(currentMap); // 현재 턴의 데이터를 AfterStack에 쌓는다.
+        MapObject[][] beforeMap = beforeStack.pop(); // beforeStack에서 이전 턴의 데이터를 가져온다.
+        this.currentMap = beforeMap; // 이전 턴을 currentMap으로 한다.
+        printStageMap();
+        return true;
+    }
+
 }
