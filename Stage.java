@@ -362,4 +362,19 @@ public class Stage {
         return true;
     }
 
+    // 이전 턴으로 돌아갔던 것을 취소한다. (앞으로 돌아가기)
+    public boolean cancelRedo() {
+        if (afterStack.empty()) {
+            System.out.println("u : (경고!) 해당 명령을 수행할 수 없습니다. 현재 되돌아가지 않은 상황입니다.");
+            printStageMap();
+            return false;
+        }
+        System.out.println("U : 다음 턴으로 다시 돌아갑니다. (실행 취소)");
+        beforeStack.push(currentMap); // 현재 턴의 데이터를 다시 beforeStack에 쌓는다.
+        MapObject[][] afterMap = afterStack.pop(); // afterStack에서 다음 턴의 데이터를 다시 가져온다.
+        this.currentMap = afterMap;
+        printStageMap();
+        return true;
+    }
+
 }
