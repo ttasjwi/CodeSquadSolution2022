@@ -3,16 +3,14 @@ import java.util.Stack;
 public class Stage {
 
     private String stageName; // 스테이지명
-    private MapObject[][] originalMap; // 스테이지 맵
+    private MapObject[][] originalMap; // 원본 맵
     private MapObject[][] currentMap; // 현재 맵
-    private Player player; // 플레이어
-    private Stack<MapObject[][]> beforeStack = new Stack<>(); // 이전턴들을 Stack으로 쌓음.
+    private Stack<MapObject[][]> beforeStack = new Stack<>(); // 이전 턴들을 Stack으로 쌓음.
 
     // 스테이지를 초기화한다.
     public void reset() {
-        this.currentMap = copyOriginalMap();
         System.out.println("R : 스테이지를 초기화합니다.");
-        this.player = (Player) getMapObject(getPointOfPlayer());
+        this.currentMap = copyOriginalMap();
         this.beforeStack.clear();
         printStageMap();
         return;
@@ -27,12 +25,11 @@ public class Stage {
         return stage;
     }
 
-    // 스테이지를 초기화한다.
+    // 생성한 스테이지를 초기화한다.
     private void init(String stageName, MapObject[][] stageMap) {
         this.stageName = stageName;
         this.originalMap = stageMap;
         this.currentMap = copyOriginalMap();
-        this.player = (Player) getMapObject(getPointOfPlayer());
     }
 
     // Original Map을 복사해서 반환한다.
@@ -107,6 +104,10 @@ public class Stage {
             }
         }
         return null;
+    }
+
+    private Player getPlayer() {
+        return (Player) getMapObject(getPointOfPlayer());
     }
 
     // 지정 인덱스에 위치한 맵 오브젝트를 반환한다.
@@ -203,7 +204,7 @@ public class Stage {
 
     // Map에서 플레이어를 분리시킨다.
     private Player splitPlayerFromMap() {
-        Player player = this.player;
+        Player player = getPlayer();
         return (Player)splitMovableFromMap(player);
     }
 
@@ -239,13 +240,13 @@ public class Stage {
 
     // 플레이어를 동쪽(오른쪽)으로 이동시킨다.
     public boolean movePlayerToEast() {
-        Point playerPoint = player.getPoint();
+        Point playerPoint = getPointOfPlayer();
         Point eastPoint = playerPoint.getEastPoint();
         MapObject eastObject = getMapObject(eastPoint);
         if (isPassable(eastObject)) {
+            recordBeforeTurn();
             System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
             movePlayerToPassable(eastPoint);
-            recordCurrentTurn();
             printStageMap();
             return true;
         }
@@ -262,13 +263,13 @@ public class Stage {
 
     // 플레이어를 남쪽(아래)으로 이동시킨다.
     public boolean movePlayerToSouth() {
-        Point playerPoint = player.getPoint();
+        Point playerPoint = getPointOfPlayer();
         Point southPoint = playerPoint.getSouthPoint();
         MapObject southObject = getMapObject(southPoint);
         if (isPassable(southObject)) {
+            recordBeforeTurn();
             System.out.println("S : 플레이어를 아래로 이동합니다.");
             movePlayerToPassable(southPoint);
-            recordCurrentTurn();
             printStageMap();
             return true;
         }
@@ -284,12 +285,12 @@ public class Stage {
 
     // 플레이어를 서쪽(왼쪽)으로 이동시킨다.
     public boolean movePlayerToWest() {
-        Point playerPoint = player.getPoint();
+        Point playerPoint = getPointOfPlayer();
         Point westPoint = playerPoint.getWestPoint();
         MapObject westObject = getMapObject(westPoint);
         if (isPassable(westObject)) {
+            recordBeforeTurn();
             System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
-            recordCurrentTurn();
             movePlayerToPassable(westPoint);
             printStageMap();
             return true;
@@ -306,13 +307,13 @@ public class Stage {
 
     // 플레이어를 북쪽(위)으로 이동시킨다.
     public boolean movePlayerToNorth() {
-        Point playerPoint = player.getPoint();
+        Point playerPoint = getPointOfPlayer();
         Point northPoint = playerPoint.getNorthPoint();
         MapObject northObject = getMapObject(northPoint);
         if (isPassable(northObject)) {
+            recordBeforeTurn();
             System.out.println("W : 플레이어를 위로 이동합니다.");
             movePlayerToPassable(northPoint);
-            recordCurrentTurn();
             printStageMap();
             return true;
         }
@@ -334,8 +335,8 @@ public class Stage {
         return this.beforeStack.size();
     }
 
-    // 현재 턴의 beforeStack에 Map상태를 push(저장)한다.
-    private void recordCurrentTurn() {
+    // 변화 직전, beforeStack에 Map상태를 push(저장)한다.
+    private void recordBeforeTurn() {
         beforeStack.push(currentMap); // 현재 맵을 beforeStack에 push한다.
     }
 }
