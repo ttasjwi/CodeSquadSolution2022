@@ -17,10 +17,6 @@ public class Player extends MapObject implements Movable {
         return this.symbol;
     }
 
-    @Override
-    public boolean isMovable() {
-        return true;
-    }
 
     @Override
     public Point getPoint() {

@@ -16,10 +16,6 @@ public class Ball extends MapObject implements Movable {
         return (hasHall())? '0' : this.symbol;
     }
 
-    @Override
-    public boolean isMovable() {
-        return false;
-    }
 
     @Override
     public Point getPoint() {

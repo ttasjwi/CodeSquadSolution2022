@@ -16,10 +16,6 @@ public class Hall extends MapObject implements Passable {
         return this.symbol;
     }
 
-    @Override
-    public boolean isMovable() {
-        return false;
-    }
 
     @Override
     public Point getPoint() {

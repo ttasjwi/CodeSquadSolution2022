@@ -16,10 +16,6 @@ public class Space extends MapObject implements Passable {
         return this.symbol;
     }
 
-    @Override
-    public boolean isMovable() {
-        return true;
-    }
 
     @Override
     public Point getPoint() {

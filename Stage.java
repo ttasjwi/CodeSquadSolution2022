@@ -60,18 +60,6 @@ public class Stage {
         return sb.toString();
     }
 
-    //StageMap에서 구멍의 갯수를 반환
-    public int getNmbOfHall() {
-        int countOfHall = 0;
-        if (player.hasHall()) countOfHall ++;
-        for (int i=0; i<currentMap.length; i++) {
-            for (int j=0; j<currentMap[i].length; j++) {
-                if (isHall(currentMap[i][j])) countOfHall ++;
-            }
-        }
-        return countOfHall;
-    }
-
     //SatgeMap에서 공의 갯수를 반환
     public int getNmbOfBall() {
         int countOfBall = 0;
@@ -101,16 +89,6 @@ public class Stage {
             countOfInputtedBall += (ball.hasHall())? 1 : 0;
         }
         return countOfInputtedBall;
-    }
-
-    // 맵의 가로폭 반환
-    public int getWidth() {
-        return this.currentMap[0].length;
-    }
-
-    // 맵의 세로폭 반환
-    public int getHeight() {
-        return this.currentMap.length;
     }
 
     // 스테이지명 반환
