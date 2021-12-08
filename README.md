@@ -502,3 +502,24 @@
 
 ---
 
+### \[3.08 revision] 플레이어가 공을 밀 수 있게 함.
+
+1. 작업상황
+    - Movable 인터페이스 추가 : 자의적이든 타의적이든 다른 위치로 움직일 수 있는 객체 Ball, Player를 `Movable`로 추상화함.
+      - `Movable`은 Hall 위에 올라설 수 있으므로, \[3.06 revision]에서 정의한 `add(Hall hall)`, `Hall removeHall()`, `hasHall()`을 Movable 인터페이스의 추상메서드로 함.
+      - `void moveTo(Point p)` : 지정 좌표로 이동
+    - Stage 클래스
+      - `PushBall(Point fromBallPoint, Point arrivalPoint)` : 공을 지정 좌표로 미는 시도를 하는 메서드. 지정 좌표에 space나 Hall이 있으면 밀 수 있고, 없으면 밀 수 없다.
+      - `splitMovableFromMap(Movable movable)` : 지정 Movable 객체를 맵에서 분리시킴.
+        - `splitBallFromMap(Ball ball)` : 지정 ball 객체를 맵에서 분리시킴. 위의 메서드 참조
+        - `splitPlayerFromMap()` : Player를 맵에서 분리시킴. 위의 메서드 참조. 기존에 이 메서드가 존재했으나, splitMovableFromMap으로 확장했다.
+        - `moveBallToHall(Ball fromBall, Point arrivalPoint)` : ball을 hall로 이동
+        - `moveBallToSpace(Ball fromBall, Point arrivalPoint)` : ball을 space로 이동
+      - `movePlayerToEast`, `movePlayerToSouth`, `movePlayerToWest`, `movePlayerToNorth`
+        - 이동 방향에 `Ball`이 있을 경우에 대한 처리를 추가.
+2. 동작
+    - 플레이어가 공을 밀 수 있음.
+    - 공이 만약 구멍 위에 올려지면 공에 `Hall`이 포함되고 공의 마커가 '0'으로 출력되게 함.
+    - 공이 다시 구멍에서 빠져나가면 공과 구멍이 분리됨
+
+--- 

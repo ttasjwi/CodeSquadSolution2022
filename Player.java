@@ -1,5 +1,5 @@
 
-public class Player extends MapObject {
+public class Player extends MapObject implements Movable {
 
     private static final char symbol = 'P';
 
@@ -27,20 +27,22 @@ public class Player extends MapObject {
         return this.point;
     }
 
+    @Override
     public void addHall(Hall hall) {
         this.ownhall = hall;
     }
-
+    @Override
     public Hall removeHall() {
         Hall hall = this.ownhall;
         this.ownhall = null;
         return hall;
     }
 
+    @Override
     public boolean hasHall() {
         return this.ownhall != null;
     }
-
+    @Override
     public void moveTo(Point point) {
         this.point = point;
     }

@@ -18,4 +18,5 @@ public abstract class MapObject {
     public abstract boolean isMovable();
 
     public abstract Point getPoint();
+
 }

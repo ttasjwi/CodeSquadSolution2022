@@ -142,27 +142,61 @@ public class Stage {
         return;
     }
 
-    // 플레이어를 동쪽(오른쪽)으로 이동시킨다.
-    public void movePlayerToEast() {
-        Point playerPoint = player.getPoint();
-        Point eastPoint = playerPoint.getEastPoint();
-        MapObject eastObject = getMapObject(eastPoint);
-        if (isSpace(eastObject)) {
-            movePlayerToSpace(eastPoint);
-            System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
-            printStageMap();
-            return;
+    private boolean pushBall(Point fromBallPoint, Point arrivalPoint) {
+        MapObject fromObject = getMapObject(fromBallPoint);
+        if (!isBall(fromObject)) return false;
+        Ball fromBall = (Ball) fromObject;
+        MapObject arrivalObject = getMapObject(arrivalPoint);
+        if (isSpace(arrivalObject)) {
+            moveBallToSpace(fromBall, arrivalPoint);
+            return true;
         }
+        if (isHall(arrivalObject)) {
+            moveBallToHall(fromBall, arrivalPoint);
+            return true;
+        }
+        return false;
+    }
 
-        if (isHall(eastObject)) {
-            movePlayerToHall(eastPoint);
-            System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
-            printStageMap();
-            return;
+    private void moveBallToHall(Ball fromBall, Point arrivalPoint) {
+        splitBallFromMap(fromBall);
+
+        Hall arrivalHall = (Hall) getMapObject(arrivalPoint);
+        fromBall.addHall(arrivalHall);
+
+        currentMap[arrivalPoint.getY()][arrivalPoint.getX()] = fromBall;
+        fromBall.moveTo(arrivalPoint);
+    }
+
+    private void moveBallToSpace(Ball fromBall, Point arrivalPoint) {
+        splitBallFromMap(fromBall);
+        currentMap[arrivalPoint.getY()][arrivalPoint.getX()] = fromBall;
+        fromBall.moveTo(arrivalPoint);
+    }
+
+    //Movable을 스테이지에서 분리
+    private Movable splitMovableFromMap(Movable movable) {
+        if (movable.hasHall()) {
+            Hall wasOwnedHall = movable.removeHall(); // 플레이어에게서 Hall을 제거
+            this.currentMap[movable.getPoint().getY()][movable.getPoint().getX()] = wasOwnedHall; // 소지했던 hall을 맵에 놓는다.
+            movable.moveTo(null);
+            return movable;
         }
-        System.out.println("D : (경고!) 해당 명령을 수행할 수 없습니다!");
-        printStageMap();
-        return;
+        Space space = new Space(this, movable.getPoint());
+        this.currentMap[movable.getPoint().getY()][movable.getPoint().getX()] = space; // Space의 인덱스를 Movable에게 계승시킨다.
+        movable.moveTo(null);
+        return movable;
+    }
+
+    // Map에서 지정 Ball을 분리시킨다.
+    private Ball splitBallFromMap(Ball ball) {
+        return (Ball)splitMovableFromMap(ball);
+    }
+
+    // Map에서 플레이어를 분리시킨다.
+    private Player splitPlayerFromMap() {
+        Player player = this.player;
+        return (Player)splitMovableFromMap(player);
     }
 
     // 플레이어를 Space로 이동시킨다.
@@ -172,7 +206,7 @@ public class Stage {
             return false;
         }
         Player player = splitPlayerFromMap();
-        this.currentMap[spacePoint.getY()][spacePoint.getX()] = player; // Space의 인덱스를 Player에게 계승시킨다.
+        this.currentMap[spacePoint.getY()][spacePoint.getX()] = player;
         player.moveTo(spacePoint); // Space의 좌표를 player에게 계승시킨다.
         return true;
     }
@@ -190,90 +224,122 @@ public class Stage {
         return true;
     }
 
-    // Map에서 플레이어를 분리시킨다.
-    private Player splitPlayerFromMap() {
-        Player player = this.player;
-
-        if (player.hasHall()) {
-            Hall wasOwnedHall = player.removeHall(); // 플레이어에게서 Hall을 제거
-            this.currentMap[player.getPoint().getY()][player.getPoint().getX()] = wasOwnedHall; // 소지했던 hall을 맵에 놓는다.
-            player.moveTo(null);
-            return player;
+    // 플레이어를 동쪽(오른쪽)으로 이동시킨다.
+    public boolean movePlayerToEast() {
+        Point playerPoint = player.getPoint();
+        Point eastPoint = playerPoint.getEastPoint();
+        MapObject eastObject = getMapObject(eastPoint);
+        if (isSpace(eastObject)) {
+            movePlayerToSpace(eastPoint);
+            System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
+            printStageMap();
+            return true;
         }
 
-        Space space = new Space(this, player.getPoint());
-        this.currentMap[player.getPoint().getY()][player.getPoint().getX()] = space;
-        player.moveTo(null);
-        return player;
+        if (isBall(eastObject)) {
+            Point eastOfEastPoint = eastObject.getPoint().getEastPoint();
+            boolean pushSuccess = pushBall(eastPoint, eastOfEastPoint);
+            if (pushSuccess) return movePlayerToEast();
+        }
+
+        if (isHall(eastObject)) {
+            movePlayerToHall(eastPoint);
+            System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
+            printStageMap();
+            return true;
+        }
+        System.out.println("D : (경고!) 해당 명령을 수행할 수 없습니다!");
+        printStageMap();
+        return false;
     }
 
+
     // 플레이어를 남쪽(아래)으로 이동시킨다.
-    public void movePlayerToSouth() {
+    public boolean movePlayerToSouth() {
         Point playerPoint = player.getPoint();
         Point southPoint = playerPoint.getSouthPoint();
         MapObject southObject = getMapObject(southPoint);
-
         if (isSpace(southObject)) {
-            System.out.println("S : 플레이어를 아래로 이동합니다.");
             movePlayerToSpace(southPoint);
-            printStageMap();
-            return;
-        }
-        if (isHall(southObject)) {
             System.out.println("S : 플레이어를 아래로 이동합니다.");
-            movePlayerToHall(southPoint);
             printStageMap();
-            return;
+            return true;
+        }
+
+        if (isBall(southObject)) {
+            Point southOfSouthPoint = southObject.getPoint().getSouthPoint();
+            boolean pushSuccess = pushBall(southPoint, southOfSouthPoint);
+            if (pushSuccess) return movePlayerToSouth();
+        }
+
+        if (isHall(southObject)) {
+            movePlayerToHall(southPoint);
+            System.out.println("S : 플레이어를 아래로 이동합니다.");
+            printStageMap();
+            return true;
         }
         System.out.println("S : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
-        return;
+        return false;
     }
 
     // 플레이어를 서쪽(왼쪽)으로 이동시킨다.
-    public void movePlayerToWest() {
+    public boolean movePlayerToWest() {
         Point playerPoint = player.getPoint();
         Point westPoint = playerPoint.getWestPoint();
         MapObject westObject = getMapObject(westPoint);
-
         if (isSpace(westObject)) {
-            System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
             movePlayerToSpace(westPoint);
-            printStageMap();
-            return;
-        }
-        if (isHall(westObject)) {
             System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
-            movePlayerToHall(westPoint);
             printStageMap();
-            return;
+            return true;
+        }
+
+        if (isBall(westObject)) {
+            Point westOfWestPoint = westObject.getPoint().getWestPoint();
+            boolean pushSuccess = pushBall(westPoint, westOfWestPoint);
+            if (pushSuccess) return movePlayerToWest();
+        }
+
+        if (isHall(westObject)) {
+            movePlayerToHall(westPoint);
+            System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
+            printStageMap();
+            return true;
         }
         System.out.println("A : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
-        return;
+        return false;
     }
 
     // 플레이어를 북쪽(위)으로 이동시킨다.
-    public void movePlayerToNorth() {
+    public boolean movePlayerToNorth() {
         Point playerPoint = player.getPoint();
         Point northPoint = playerPoint.getNorthPoint();
         MapObject northObject = getMapObject(northPoint);
-
-        if (isSpace(northObject)) { // 이동하려는 곳이 공백이면
-            System.out.println("W : 플레이어를 위로 이동합니다.");
+        if (isSpace(northObject)) {
             movePlayerToSpace(northPoint);
-            printStageMap();
-            return;
-        }
-        if (isHall(northObject)) {
             System.out.println("W : 플레이어를 위로 이동합니다.");
-            movePlayerToHall(northPoint);
             printStageMap();
-            return;
+            return true;
         }
+
+        if (isBall(northObject)) {
+            Point northOfNorthPoint = northObject.getPoint().getNorthPoint();
+            boolean pushSuccess = pushBall(northPoint, northOfNorthPoint);
+            if (pushSuccess) return movePlayerToNorth();
+        }
+
+        if (isHall(northObject)) {
+            movePlayerToHall(northPoint);
+            System.out.println("W : 플레이어를 위로 이동합니다.");
+            printStageMap();
+            return true;
+        }
+
         System.out.println("W : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
-        return;
+        return false;
     }
 
 }

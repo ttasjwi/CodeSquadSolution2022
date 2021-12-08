@@ -1,4 +1,4 @@
-public class Ball extends MapObject {
+public class Ball extends MapObject implements Movable {
 
     private static final char symbol = 'o';
 
@@ -26,14 +26,20 @@ public class Ball extends MapObject {
         return this.point;
     }
 
+    @Override
+    public void moveTo(Point p)  {
+        this.point = p;
+    }
+    @Override
     public boolean hasHall() {
         return this.ownhall != null;
     }
-
+    @Override
     public void addHall(Hall hall) {
         this.ownhall = hall;
     }
 
+    @Override
     public Hall removeHall() {
         Hall hall = this.ownhall;
         this.ownhall = null;
