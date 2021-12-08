@@ -159,6 +159,11 @@ public class Stage {
         return (mo instanceof Space);
     }
 
+    // 지정 맵 오브젝트가 Passable 맵 오브젝트인지 여부를 반환
+    private boolean isPassable(MapObject mo) {
+        return (mo instanceof Passable);
+    }
+
     // 스테이지를 출력한다.
     public void printStageMap() {
         System.out.println(getMapString());
@@ -222,13 +227,19 @@ public class Stage {
         return (Player)splitMovableFromMap(player);
     }
 
-    // 플레이어를 Space로 이동시킨다.
-    private boolean movePlayerToSpace(Point spacePoint) {
+    // 플레이어를 Passable이 위치한 자리로 이동시킨다.
+    private boolean movePlayerToPassable(Point spacePoint) {
         MapObject arrivalObject = getMapObject(spacePoint);
-        if (!isSpace(arrivalObject)) {
+        if (!isPassable(arrivalObject)) {
             return false;
         }
-        Player player = splitPlayerFromMap();
+        Player player = splitPlayerFromMap(); // 플레이어를 Map에서 분리시킨다.
+
+        if (isHall(arrivalObject)) {
+            Hall arrivalHall = (Hall) arrivalObject; // arrivalObject를 hall로 형변환
+            player.addHall(arrivalHall); // 플레이어에게 오른쪽 hall을 추가시킨다.
+        }
+
         this.currentMap[spacePoint.getY()][spacePoint.getX()] = player;
         player.moveTo(spacePoint); // Space의 좌표를 player에게 계승시킨다.
         return true;
@@ -238,7 +249,6 @@ public class Stage {
     private boolean movePlayerToHall(Point hallPoint) {
         MapObject arrivalObject = getMapObject(hallPoint); // 도착 지점의 MapObject
         if (!isHall(arrivalObject)) return false; // Hall이 아니면 false 반환
-
         Hall arrivalHall = (Hall) arrivalObject; // arrivalObject를 hall로 형변환
         Player player = splitPlayerFromMap(); // 플레이어를 Map에서 분리시킨다.
         player.addHall(arrivalHall); // 플레이어에게 오른쪽 hall을 추가시킨다.
@@ -252,26 +262,17 @@ public class Stage {
         Point playerPoint = player.getPoint();
         Point eastPoint = playerPoint.getEastPoint();
         MapObject eastObject = getMapObject(eastPoint);
-        if (isSpace(eastObject)) {
-            movePlayerToSpace(eastPoint);
+        if (isPassable(eastObject)) {
             System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
+            movePlayerToPassable(eastPoint);
             printStageMap();
             this.turn ++;
             return true;
         }
-
         if (isBall(eastObject)) {
             Point eastOfEastPoint = eastObject.getPoint().getEastPoint();
             boolean pushSuccess = pushBall(eastPoint, eastOfEastPoint);
             if (pushSuccess) return movePlayerToEast();
-        }
-
-        if (isHall(eastObject)) {
-            movePlayerToHall(eastPoint);
-            System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
-            printStageMap();
-            this.turn ++;
-            return true;
         }
         System.out.println("D : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
@@ -284,26 +285,17 @@ public class Stage {
         Point playerPoint = player.getPoint();
         Point southPoint = playerPoint.getSouthPoint();
         MapObject southObject = getMapObject(southPoint);
-        if (isSpace(southObject)) {
-            movePlayerToSpace(southPoint);
+        if (isPassable(southObject)) {
             System.out.println("S : 플레이어를 아래로 이동합니다.");
+            movePlayerToPassable(southPoint);
             printStageMap();
             this.turn ++;
             return true;
         }
-
         if (isBall(southObject)) {
             Point southOfSouthPoint = southObject.getPoint().getSouthPoint();
             boolean pushSuccess = pushBall(southPoint, southOfSouthPoint);
             if (pushSuccess) return movePlayerToSouth();
-        }
-
-        if (isHall(southObject)) {
-            movePlayerToHall(southPoint);
-            System.out.println("S : 플레이어를 아래로 이동합니다.");
-            printStageMap();
-            this.turn ++;
-            return true;
         }
         System.out.println("S : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
@@ -315,26 +307,17 @@ public class Stage {
         Point playerPoint = player.getPoint();
         Point westPoint = playerPoint.getWestPoint();
         MapObject westObject = getMapObject(westPoint);
-        if (isSpace(westObject)) {
-            movePlayerToSpace(westPoint);
+        if (isPassable(westObject)) {
             System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
+            movePlayerToPassable(westPoint);
             printStageMap();
             this.turn ++;
             return true;
         }
-
         if (isBall(westObject)) {
             Point westOfWestPoint = westObject.getPoint().getWestPoint();
             boolean pushSuccess = pushBall(westPoint, westOfWestPoint);
             if (pushSuccess) return movePlayerToWest();
-        }
-
-        if (isHall(westObject)) {
-            movePlayerToHall(westPoint);
-            System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
-            printStageMap();
-            this.turn ++;
-            return true;
         }
         System.out.println("A : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
@@ -346,28 +329,18 @@ public class Stage {
         Point playerPoint = player.getPoint();
         Point northPoint = playerPoint.getNorthPoint();
         MapObject northObject = getMapObject(northPoint);
-        if (isSpace(northObject)) {
-            movePlayerToSpace(northPoint);
+        if (isPassable(northObject)) {
             System.out.println("W : 플레이어를 위로 이동합니다.");
+            movePlayerToPassable(northPoint);
             printStageMap();
             this.turn ++;
             return true;
         }
-
         if (isBall(northObject)) {
             Point northOfNorthPoint = northObject.getPoint().getNorthPoint();
             boolean pushSuccess = pushBall(northPoint, northOfNorthPoint);
             if (pushSuccess) return movePlayerToNorth();
         }
-
-        if (isHall(northObject)) {
-            movePlayerToHall(northPoint);
-            System.out.println("W : 플레이어를 위로 이동합니다.");
-            printStageMap();
-            this.turn ++;
-            return true;
-        }
-
         System.out.println("W : (경고!) 해당 명령을 수행할 수 없습니다!");
         printStageMap();
         return false;

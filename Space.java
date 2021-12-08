@@ -1,5 +1,5 @@
 
-public class Space extends MapObject {
+public class Space extends MapObject implements Passable {
 
     private static final char symbol = ' ';
 

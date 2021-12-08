@@ -592,3 +592,13 @@
     - Stage 4,5가 추가됨
 
 ---
+
+### \[3.15 revision] Passable 인터페이스 추가
+1. 작업상황
+    - Passable 인터페이스 추가. Space와 Hall은 Passable의 구현체임
+    - Stage 클래스에서, `moveToWest`,`moveToEast`, `moveToSouth`, `moveToNorth` 메서드가 space, Hall에 대해 따로 케이스를 분류하다보니 코드가 길어지는 문제를 해결하고자, 이들을 통과할 수 있는 요소인 Passable로 추상화함. 이로서 이들 메서드의 길이가 좀 더 짧아졌다.
+    - `movePlayerToSpace`, `movePlayerToHall`을 `movePlayerToPassable`로 통합
+2. 동작
+    - 기존과 동일함.
+
+---

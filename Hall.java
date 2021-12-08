@@ -1,5 +1,5 @@
 
-public class Hall extends MapObject {
+public class Hall extends MapObject implements Passable {
     private static final char symbol = 'O';
 
     private final Stage stage;
