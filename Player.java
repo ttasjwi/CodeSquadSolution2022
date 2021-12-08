@@ -28,9 +28,11 @@ public class Player extends MapObject implements Movable {
     }
 
     @Override
-    public void addHall(Hall hall) {
+    public Player addHall(Hall hall) {
         this.ownhall = hall;
+        return this;
     }
+
     @Override
     public Hall removeHall() {
         Hall hall = this.ownhall;

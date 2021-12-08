@@ -35,8 +35,9 @@ public class Ball extends MapObject implements Movable {
         return this.ownhall != null;
     }
     @Override
-    public void addHall(Hall hall) {
+    public Ball addHall(Hall hall) {
         this.ownhall = hall;
+        return this;
     }
 
     @Override

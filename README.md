@@ -574,3 +574,14 @@
     - Stage 2의 맵이 수정됐다.
 
 ---
+### \[3.13 revision] Stage 3의 맵 추가, 맵 읽기에서 0을 읽도록 함
+1. 작업상황
+   - Stage 3을 추가
+   - Movable에서 void addHall(Hall hall) 추가 및 구현체들에서 구현
+     - 각 구현체들은 자신의 타입으로 자기 자신을 반환하도록 함.
+   - 맵 읽기에서 0을 읽도록, `MapObject getInstance`에서 0도 변환하도록 함.
+     - 0을 읽으면 Ball에 hall을 add 한뒤 Ball을 반환한다.
+2. 동작
+   - Stage 3이 추가됨.
+
+---

@@ -4,7 +4,7 @@ public interface Movable {
 
     boolean hasHall();
 
-    void addHall(Hall hall);
+    Movable addHall(Hall hall);
 
     Hall removeHall();
 

@@ -7,6 +7,7 @@ public abstract class MapObject {
             case '#' : return new Wall(stage, point);
             case 'O' : return new Hall(stage, point);
             case 'o' : return new Ball(stage, point);
+            case '0' : return new Ball(stage,point).addHall(new Hall(stage,point));
             case 'P' : return new Player(stage, point);
             case '=' : return new StageDelim(stage, point);
             default: return new Space(stage, point);
