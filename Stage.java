@@ -1,17 +1,19 @@
+import java.util.Stack;
+
 public class Stage {
 
     private String stageName; // 스테이지명
     private MapObject[][] originalMap; // 스테이지 맵
     private MapObject[][] currentMap; // 현재 맵
     private Player player; // 플레이어
-    private int turn; // 현재 턴
+    private Stack<MapObject[][]> beforeStack = new Stack<>(); // 이전턴들을 Stack으로 쌓음.
 
     // 스테이지를 초기화한다.
     public void reset() {
         this.currentMap = copyOriginalMap();
         System.out.println("R : 스테이지를 초기화합니다.");
         this.player = (Player) getMapObject(getPointOfPlayer());
-        this.turn = 0;
+        this.beforeStack.clear();
         printStageMap();
         return;
     }
@@ -243,8 +245,8 @@ public class Stage {
         if (isPassable(eastObject)) {
             System.out.println("D : 플레이어를 오른쪽으로 이동합니다.");
             movePlayerToPassable(eastPoint);
+            recordCurrentTurn();
             printStageMap();
-            this.turn ++;
             return true;
         }
         if (isBall(eastObject)) {
@@ -266,8 +268,8 @@ public class Stage {
         if (isPassable(southObject)) {
             System.out.println("S : 플레이어를 아래로 이동합니다.");
             movePlayerToPassable(southPoint);
+            recordCurrentTurn();
             printStageMap();
-            this.turn ++;
             return true;
         }
         if (isBall(southObject)) {
@@ -287,9 +289,9 @@ public class Stage {
         MapObject westObject = getMapObject(westPoint);
         if (isPassable(westObject)) {
             System.out.println("A : 플레이어를 왼쪽으로 이동합니다.");
+            recordCurrentTurn();
             movePlayerToPassable(westPoint);
             printStageMap();
-            this.turn ++;
             return true;
         }
         if (isBall(westObject)) {
@@ -310,8 +312,8 @@ public class Stage {
         if (isPassable(northObject)) {
             System.out.println("W : 플레이어를 위로 이동합니다.");
             movePlayerToPassable(northPoint);
+            recordCurrentTurn();
             printStageMap();
-            this.turn ++;
             return true;
         }
         if (isBall(northObject)) {
@@ -329,6 +331,11 @@ public class Stage {
     }
 
     public int getCurrentTurn() {
-        return this.turn;
+        return this.beforeStack.size();
+    }
+
+    // 현재 턴의 beforeStack에 Map상태를 push(저장)한다.
+    private void recordCurrentTurn() {
+        beforeStack.push(currentMap); // 현재 맵을 beforeStack에 push한다.
     }
 }
